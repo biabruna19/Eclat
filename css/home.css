@@ -1,0 +1,1046 @@
+/* Definição das Cores Éclat - NOVAS CORES */
+:root {
+  --color-primary: #cfa266;
+  /* Bronze/Ouro Principal */
+  --color-secondary: #fff8f1;
+  /* Bege Claro para Header */
+  --color-background: #fdf6ed;
+  /* Fundo suave da página (o seu tom de bege) */
+  --color-text-dark: #3a1e10;
+  /* Marrom para Texto Principal e Botões CTA */
+  --color-text-light: #54321D;
+  /* Marrom para Texto Secundário (Links/Títulos) */
+  --color-accent: #e4bba1;
+  /* Tom pêssego/rosa claro para destaque */
+  --color-dark-button: #200e01;
+  /* Marrom muito escuro para o botão */
+  --color-overlay-dark: rgba(58, 30, 16, 0.85);
+  /* Marrom Escuro do --color-text-dark com opacidade */
+  --color-overlay-light-text: #fdf6ed;
+  /* Cor do Fundo para contraste no overlay */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-dark);
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* --- CABEÇALHO --- */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--color-secondary);
+}
+
+.logo img {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Estilos Navbar e Dropdown... (Mantidos) */
+.navbar a {
+  display: inline-block;
+  margin: 0 2rem;
+  font-size: 1.0rem;
+  color: var(--color-text-light);
+  text-decoration: none;
+  padding-bottom: 0.3rem;
+  border-bottom: 0.1rem solid transparent;
+  transition: all 0.3s ease;
+}
+
+.navbar a:hover {
+  color: var(--color-primary);
+  border-bottom: 0.1rem solid var(--color-primary);
+  transform: scale(1.05);
+}
+
+/* --- SUBMENU (DROPDOWN) --- */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  height: 100%;
+  padding: 0 0 10px 0;
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+  min-width: 200px;
+  z-index: 100;
+  padding: 5px 0;
+  margin-top: 5px;
+}
+
+.dropdown a {
+  margin: 0 1.5rem;
+  padding: 0.3rem 0;
+  border-bottom: 0.1rem solid transparent;
+  transition: all 0.3s ease;
+}
+
+.dropdown a:hover {
+  color: var(--color-primary);
+  border-bottom: 0.1rem solid var(--color-primary);
+  transform: none;
+}
+
+.submenu li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.submenu li a {
+  display: block;
+  padding: 10px 18px;
+  color: var(--color-text-light);
+  white-space: nowrap;
+  border-bottom: none;
+  font-size: 0.95rem;
+  transition: background 0.3s ease, color 0.3s ease;
+  margin: 0;
+}
+
+.submenu li a:hover {
+  background: var(--color-primary);
+  color: var(--color-dark-button);
+  border-bottom: none;
+  transform: none;
+}
+
+.dropdown.show-submenu .submenu {
+  display: block;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icones i {
+  margin-right: 15px;
+  color: var(--color-text-light);
+  font-size: 18px;
+  cursor: pointer;
+  vertical-align: middle;
+  
+}
+
+.icones i:hover {
+  transform: scale(1.2);
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: var(--color-accent);
+}
+
+.icones a {
+    text-decoration: none; /* Remove o sublinhado dos links */
+}
+
+
+/* --- HAMBURGUER (MOBILE) --- */
+/* Adicione este botão no seu HTML, dentro do top-nav */
+.hamburger-menu {
+  display: none;
+  /* Esconde por padrão em desktop */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: var(--color-text-dark);
+  padding: 10px;
+  z-index: 101;
+}
+
+/* Fim dos Estilos Navbar e Dropdown */
+
+
+.banner-principal {
+  display: block;
+  width: 100%;
+  height: 600px;
+  background-image: url('../imagens/home/home\ principal.png');
+  background-size: cover;
+  background-position: center;
+  object-fit: contain;
+}
+
+/* --- SEÇÃO DE DESTAQUE: ESSÊNCIA ÉCLAT --- */
+
+.eclat-destaque-essencia {
+  background-color: var(--color-background);
+  padding: 100px 20px;
+  text-align: center;
+  color: var(--color-text-dark);
+}
+
+.essencia-icone {
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  margin-bottom: 5px;
+}
+
+.essencia-subtitulo {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-text-light);
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.essencia-titulo {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 30px;
+}
+
+.essencia-descricao {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--color-text-light);
+  max-width: 700px;
+  margin: 0 auto 50px auto;
+}
+
+/* Estilo do Botão */
+.essencia-btn {
+  display: inline-flex;
+  /* Adicionado display: inline-flex para alinhar ícone/texto */
+  align-items: center;
+  background-color: var(--color-dark-button);
+  color: #fff;
+  padding: 15px 35px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.essencia-btn:hover {
+  background-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.essencia-btn i {
+  margin-right: 10px;
+  font-size: 1rem;
+}
+
+/* Responsividade (Para telas menores) */
+@media (max-width: 768px) {
+  .eclat-destaque-essencia {
+    padding: 80px 15px;
+  }
+
+  .essencia-titulo {
+    font-size: 2.5rem;
+  }
+
+  .essencia-descricao {
+    font-size: 1rem;
+    max-width: 90%;
+  }
+}
+
+/* --- Seção de Brilho Interativo (Círculos) --- */
+.secao-brilho-interativo {
+  padding: 35px 0;
+  background-color: var(--color-secondary);
+  text-align: center;
+}
+
+.titulo-secao-brilho {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8em;
+  color: var(--color-text-dark);
+  margin-bottom: 10px;
+}
+
+.subtitulo-secao-brilho {
+  font-size: 1.1em;
+  color: var(--color-text-light);
+  margin-bottom: 60px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.circulos-interativos-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.circulo-card {
+  display: block;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.3s;
+  margin-bottom: 50px;
+}
+
+.circulo-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* URLs de Imagem (Mantidas) */
+.circulo-1 {
+  background-image: url('../imagens/home/circulo1.png');
+}
+
+.circulo-2 {
+  background-image: url('../imagens/home/circulo2.png');
+}
+
+.circulo-3 {
+  background-image: url('../imagens/home/circulo3.jpg');
+}
+
+/* TÍTULO ESTÁTICO ABAIXO DO CÍRCULO */
+.circulo-titulo-estatico {
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4em;
+  color: var(--color-text-dark);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.circulo-card:hover .circulo-titulo-estatico {
+  color: var(--color-primary);
+}
+
+/* Camada de Sobreposição (Overlay) */
+.circulo-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: var(--color-overlay-dark);
+  color: var(--color-overlay-light-text);
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  transition: opacity 0.4s ease;
+}
+
+.circulo-card:hover .circulo-overlay {
+  opacity: 1;
+}
+
+.circulo-overlay h3 {
+  font-size: 1.4em;
+  margin-bottom: 10px;
+  font-family: 'Playfair Display', serif;
+}
+
+.circulo-overlay p {
+  font-size: 0.9em;
+  margin-bottom: 15px;
+  color: var(--color-accent);
+}
+
+.btn-ver-mais {
+  background-color: var(--color-primary);
+  padding: 8px 20px;
+  border-radius: 3px;
+  font-weight: bold;
+  font-size: 0.9em;
+  transition: background-color 0.3s;
+}
+
+.circulo-card:hover .btn-ver-mais {
+  background-color: var(--color-overlay-light-text);
+  color: var(--color-primary);
+}
+
+.secao-separador-sutil {
+  border: #cfa266;
+}
+
+/* Fim da Seção Círculos */
+
+/* --- Seção História Harmonizada (Duas Colunas) --- */
+.secao-historia-harmonizada {
+  padding: 30px 20px;
+  background-color: var(--color-background);
+}
+
+.container-historia-harmonizada {
+  display: flex;
+  max-width: 1100px;
+  margin: 0 auto;
+  gap: 60px;
+  align-items: center;
+}
+
+.imagem-historia {
+  flex: 1;
+  max-width: 450px;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  height: 480px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imagem-historia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+}
+
+.texto-historia {
+  flex: 1;
+  text-align: left;
+  max-width: 550px;
+}
+
+.titulo-historia {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2em;
+  color: var(--color-text-dark);
+  margin-bottom: 20px;
+}
+
+.texto-historia p {
+  font-size: 1.05em;
+  color: var(--color-text-light);
+  line-height: 1.7;
+  margin-bottom: 15px;
+}
+
+.btn-historia {
+  display: inline-block;
+  background-color: var(--color-dark-button);
+  color: #fff;
+  padding: 12px 30px;
+  border-radius: 3px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 15px;
+  transition: background-color 0.3s;
+}
+
+.btn-historia:hover {
+  background-color: var(--color-primary);
+}
+
+/* RESPONSIVIDADE (História) */
+@media (max-width: 900px) {
+  .container-historia-harmonizada {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .imagem-historia {
+    order: -1;
+    max-width: 100%;
+    height: 350px;
+  }
+
+  .texto-historia {
+    text-align: center;
+    max-width: 100%;
+  }
+}
+/* --- SEÇÃO DE QUALIDADES DO SITE (AJUSTE DE CORES) --- */
+
+.eclat-qualidades-site {
+  background-color: var(--color-background);
+  padding: 80px 20px;
+  font-family: 'Poppins', sans-serif;
+  color: var(--color-text-dark);
+}
+
+.qualidades-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.qualidade-item {
+  flex: 1;
+  max-width: 300px;
+  text-align: center;
+  padding: 25px;
+  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid var(--color-accent);
+  box-shadow: none;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.qualidade-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  border-color: var(--color-primary);
+}
+
+.qualidade-icone {
+  font-size: 3rem;
+  color: var(--color-primary);
+  margin-bottom: 20px;
+}
+
+.qualidade-titulo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 15px;
+}
+
+.qualidade-texto {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text-light);
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+/* Responsividade (Qualidades) */
+@media (max-width: 992px) {
+  .qualidades-wrapper {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .qualidade-item {
+    flex: 1 1 calc(50% - 40px);
+    max-width: calc(50% - 40px);
+  }
+}
+
+@media (max-width: 768px) {
+  .eclat-qualidades-site {
+    padding: 50px 15px;
+  }
+
+  .qualidades-wrapper {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .qualidade-item {
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .qualidade-titulo {
+    font-size: 1.3rem;
+  }
+
+  .qualidade-texto {
+    font-size: 0.95rem;
+    max-width: 100%;
+  }
+}
+
+/* --- SEÇÃO 4: CALL TO ACTION E CONEXÃO (Newsletter e Sobre) --- */
+
+.connect-section {
+  padding: 100px 0;
+  background-color: var(--color-secondary);
+}
+
+.connect-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  padding: 0 20px;
+}
+
+.connect-box {
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.about-link {
+  background-color: var(--color-background);
+}
+
+.newsletter {
+  background-color: #fff;
+}
+
+.connect-box h2 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  font-family: 'Playfair Display', serif;
+  color: var(--color-text-dark);
+}
+
+.connect-box p {
+  margin-bottom: 25px;
+  color: var(--color-text-light);
+  font-size: 1rem;
+}
+
+.connect-btn {
+  display: inline-block;
+  padding: 12px 28px;
+  background-color: var(--color-dark-button);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.connect-btn:hover {
+  background-color: var(--color-primary);
+}
+
+/* Formulário Newsletter (Lado a Lado) */
+.newsletter-form {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  width: 100%;
+  margin-top: 35px;
+}
+
+.newsletter-form input[type="email"] {
+  flex-grow: 1;
+  padding: 13px 15px;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  font-size: 1rem;
+  height: 50px;
+}
+
+.subscribe-btn {
+  padding: 13px 25px;
+  background-color: var(--color-dark-button);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 0 4px 4px 0;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+  height: 50px;
+}
+
+.subscribe-btn:hover {
+  background-color: var(--color-primary);
+}
+
+/* --- ESTILO PARA MENSAGEM DE CONFIRMAÇÃO --- */
+.hidden-confirmation {
+    /* Estado inicial: Oculta a mensagem */
+    display: none;
+    padding: 15px;
+    margin-top: 25px;
+    background-color: #e6ffed; /* Fundo verde claro para sucesso */
+    color: #008000; /* Texto verde escuro */
+    border: 1px solid #b3ffc8;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+}
+
+/* Regra para exibir a mensagem via JS */
+.visible-confirmation {
+    display: block;
+}
+
+  .secao-separador-sutil {
+      border-top: 1px solid var(--color-accent); 
+  }
+
+/* Fim da Seção Conexão */
+
+/* --- NOVO RODAPÉ MINIMALISTA --- */
+
+.footer-minimal {
+  background-color: var(--color-secondary);
+  color: var(--color-text-light);
+  padding-top: 60px;
+}
+
+.footer-content-wrapper-three-cols {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px 50px 40px;
+  border-bottom: 1px solid rgba(84, 50, 29, 0.1);
+  text-align: left;
+  align-items: flex-start;
+}
+
+/* Estilos Comuns de Coluna - AGORA UNIFORMES */
+.footer-col-logo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.footer-logo img {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.footer-col-logo p {
+  margin: 0;
+  font-size: 0.85em;
+  color: var(--color-text-dark);
+}
+
+.footer-col h3 {
+  font-size: 1.2em;
+  font-family: 'Playfair Display', serif;
+  color: var(--color-text-dark);
+  margin-bottom: 15px;
+  margin-top: 0;
+  font-weight: 600;
+}
+
+.footer-col-links {
+  flex: 1;
+  max-width: 300px;
+  padding-top: 0;
+}
+
+.category-list-two-cols {
+  list-style: none;
+  padding: 0;
+  columns: 1;
+  text-align: left;
+  margin: 0;
+}
+
+.category-list-two-cols li {
+  margin-bottom: 8px;
+  line-height: 1.1;
+  padding: 0;
+}
+
+.footer-col-links a {
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: color 0.3s ease;
+}
+
+.footer-col-links a:hover {
+  color: var(--color-primary);
+}
+
+.footer-col-social {
+  flex: 1;
+  max-width: 300px;
+  padding-top: 0;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.social-icons a {
+  color: var(--color-text-dark);
+  font-size: 1.6em;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: var(--color-primary);
+  transform: scale(1.1);
+}
+
+.footer-copyright {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 0.8em;
+  color: var(--color-text-light);
+}
+
+/* --- RESPONSIVIDADE (MEDIA QUERIES GERAIS) --- */
+
+/* AJUSTES PARA TELAS MÉDIAS E MÓVEIS (MAX-WIDTH: 992PX) */
+@media (max-width: 992px) {
+  /* CABEÇALHO / NAVBAR */
+  .top-nav {
+    padding: 1rem 1.5rem;
+    /* Reduz o padding lateral */
+  }
+
+  .logo img {
+    height: 50px;
+    /* Reduz o tamanho do logo */
+  }
+
+  /* MOSTRA O ÍCONE DE HAMBÚRGUER (requer botão no HTML) */
+  .hamburger-menu {
+    display: block;
+  }
+
+  /* ESCONDE A NAVBAR E ÍCONES NA VISÃO MOBILE */
+  .navbar {
+    position: absolute;
+    top: 80px;
+    /* Ajuste para ficar abaixo do top-nav */
+    left: 0;
+    width: 100%;
+    height: auto;
+    background-color: var(--color-secondary);
+    flex-direction: column;
+    /* Empilha os links */
+    align-items: center;
+    padding: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    /* Oculta o menu por padrão no mobile */
+    display: none;
+    transition: transform 0.3s ease-in-out;
+    z-index: 99; /* Garante que fique acima do conteúdo */
+  }
+
+  /* Classe a ser adicionada via JavaScript */
+  .navbar.open {
+    display: flex;
+  }
+
+  /* Ajusta os links para ocuparem toda a largura */
+  .navbar a {
+    margin: 10px 0;
+    padding: 10px 20px;
+    width: 100%;
+    text-align: center;
+    border-bottom: none;
+  }
+
+  .icones {
+    display: none;
+  }
+
+  /* Ajuste para o Dropdown (Submenu) no Mobile */
+  .dropdown {
+    padding: 0;
+    width: 100%;
+  }
+
+  .submenu {
+    position: static;
+    /* Sai do fluxo absoluto */
+    transform: none;
+    width: 100%;
+    margin-top: 5px;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: var(--color-background);
+  }
+}
+
+/* AJUSTES PARA SEÇÃO DE CÍRCULOS (MAX-WIDTH: 1024PX) */
+@media (max-width: 1024px) {
+  .circulos-interativos-wrapper {
+    flex-wrap: wrap;
+    /* Permite que os itens quebrem para a próxima linha */
+    gap: 50px;
+    /* Aumenta o espaçamento quando quebra */
+  }
+
+  .circulo-card {
+    /* Permite dois círculos por linha, com um pequeno espaço. */
+    width: calc(50% - 40px);
+    height: 0;
+    /* Remove a altura fixa */
+    padding-top: calc(50% - 40px);
+    /* Truque para manter a proporção circular (1:1) */
+    max-width: 350px;
+    /* Limite de tamanho */
+    margin-bottom: 20px;
+  }
+
+  /* Oculta o título estático para focar no overlay */
+  .circulo-titulo-estatico {
+    display: none;
+  }
+}
+
+/* AJUSTES PARA MOBILE PEQUENO (MAX-WIDTH: 768PX) */
+@media (max-width: 768px) {
+  /* Banner Principal */
+  .banner-principal {
+    height: 400px;
+    /* Reduz a altura do banner no mobile */
+  }
+
+  /* Seção de Círculos */
+  .titulo-secao-brilho {
+    font-size: 2em;
+  }
+
+  .subtitulo-secao-brilho {
+    font-size: 1em;
+    margin-bottom: 40px;
+    padding: 0 15px;
+  }
+
+  .circulos-interativos-wrapper {
+    flex-direction: column;
+    /* Empilha os círculos verticalmente */
+    align-items: center;
+    gap: 40px;
+  }
+
+  .circulo-card {
+    width: 80%;
+    /* Ocupa a maior parte da tela */
+    padding-top: 80%;
+    /* Mantém a proporção do círculo */
+    max-width: 300px;
+  }
+
+  .circulo-card:hover {
+    transform: none;
+    /* Remove o zoom para evitar problemas de layout */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Seção de Conexão */
+  .connect-section {
+    padding: 50px 0;
+  }
+
+  .connect-grid {
+    grid-template-columns: 1fr;
+    /* Muda para uma única coluna */
+    gap: 20px;
+  }
+
+  .connect-box {
+    padding: 30px 20px;
+    text-align: center;
+  }
+
+  .connect-box h2 {
+    font-size: 1.8rem;
+  }
+
+  /* Formulário Newsletter Empilhado */
+  .newsletter-form {
+    flex-direction: column;
+    margin-top: 25px;
+  }
+
+  .newsletter-form input[type="email"] {
+    border-radius: 4px;
+    /* Arredonda todos os cantos */
+    border-right: 1px solid #ccc;
+    /* Restaura a borda */
+    margin-bottom: 10px;
+    height: 45px;
+  }
+
+  .subscribe-btn {
+    width: 100%;
+    border-radius: 4px;
+    /* Arredonda todos os cantos */
+    height: 45px;
+  }
+
+  /* Rodapé - Reforçando as regras de empilhamento */
+  .footer-content-wrapper-three-cols {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
+    padding: 0 20px 40px 20px;
+  }
+
+  .footer-col-logo,
+  .footer-col-links,
+  .footer-col-social {
+    max-width: 100%;
+    /* Ocupa a largura total */
+    align-items: center;
+  }
+
+  .category-list-two-cols {
+    columns: 1;
+    width: fit-content;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .footer-col h3 {
+    margin-bottom: 10px;
+  }
+}

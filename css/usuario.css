@@ -1,0 +1,1224 @@
+/* Definição das Cores Éclat e Variáveis de Espaçamento - NOVO PADRÃO */
+:root {
+    /* Cores Principais Éclat */
+    --color-primary: #cfa266;
+    /* Bronze/Ouro Principal */
+    --color-secondary: #fff8f1;
+    /* Bege Claro para Header/Cards de Fundo */
+    --color-background: #fdf6ed;
+    /* Fundo suave da página (o seu tom de bege) */
+    --color-text-dark: #3a1e10;
+    /* Marrom para Texto Principal e Títulos */
+    --color-text-light: #54321D;
+    /* Marrom para Texto Secundário/Links */
+    --color-accent: #e4bba1;
+    /* Tom pêssego/rosa claro para destaque */
+    --color-dark-button: #200e01;
+    /* Marrom muito escuro para botões/destaque */
+
+    /* Variáveis de Fontes */
+    --font-poppins: 'Poppins', sans-serif;
+    --font-playfair: 'Playfair Display', serif;
+
+    /* Espaçamentos */
+    --p-card: 2.0rem;
+    /* Padding principal dos cards (mais compacto) */
+    --m-large: 2.5rem;
+    --m-medium: 1.5rem;
+    --m-small: 0.8rem;
+}
+
+/* Importação da fonte para o CSS da página de usuário */
+@import url("https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700&family=Playfair+Display:400,700");
+
+
+/* Seletor Universal e Reset da Home */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-poppins);
+    list-style: none;
+    text-decoration: none;
+    font-size: 100%;
+}
+
+html {
+    font-size: 10px;
+}
+
+/* * 🎨 CORREÇÃO: Remove barra de rolagem horizontal e padding/margin indesejados no body.
+ */
+body {
+    background-color: var(--color-background);
+    color: var(--color-text-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0;
+    /* Remove padding do body */
+    margin: 0;
+    /* Remove margin do body */
+    overflow-x: hidden;
+    /* CRUCIAL: Remove a barra de rolagem horizontal */
+}
+
+/* Remove o fundo absoluto desnecessário */
+.main_bg {
+    display: none;
+}
+
+/* Garante o espaçamento entre o header fixo e o conteúdo do container, e adiciona espaço antes do footer. */
+body>.container {
+    padding-top: 5rem;
+    margin-top: 80px;
+    /* Compensa o header fixo */
+    margin-bottom: 5rem;
+}
+
+/* Header Styles (Mantidos) */
+
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--color-secondary);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+}
+
+.logo img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+}
+
+.navbar a {
+    display: inline-block;
+    margin: 0 2rem;
+    font-size: 1.5rem;
+    /* Era 1.0rem */
+    color: var(--color-text-light);
+    text-decoration: none;
+    padding-bottom: 0.3rem;
+    border-bottom: 0.1rem solid transparent;
+    transition: all 0.3s ease;
+}
+
+.navbar a:hover {
+    color: var(--color-primary);
+    border-bottom: 0.1rem solid var(--color-primary);
+    transform: scale(1.05);
+}
+
+/* --- SUBMENU (DROPDOWN) --- */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+    padding: 0 0 10px 0;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    z-index: 100;
+    padding: 5px 0;
+    margin-top: 5px;
+}
+
+.dropdown a {
+    margin: 0 1.5rem;
+    padding: 0.3rem 0;
+    border-bottom: 0.1rem solid transparent;
+    transition: all 0.3s ease;
+}
+
+.dropdown a:hover {
+    color: var(--color-primary);
+    border-bottom: 0.1rem solid var(--color-primary);
+    transform: none;
+}
+
+.submenu li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.submenu li a {
+    display: block;
+    padding: 10px 18px;
+    color: var(--color-text-light);
+    white-space: nowrap;
+    border-bottom: none;
+    font-size: 1.4rem;
+    /* Era 0.95rem */
+    transition: background 0.3s ease, color 0.3s ease;
+    margin: 0;
+}
+
+.submenu li a:hover {
+    background: var(--color-primary);
+    color: var(--color-dark-button);
+    border-bottom: none;
+    transform: none;
+}
+
+.dropdown.show-submenu .submenu {
+    display: block;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icones i {
+    margin-right: 15px;
+    color: var(--color-text-light);
+    font-size: 17px;
+    /* Era 18px */
+    cursor: pointer;
+}
+
+.icones i:hover {
+    transform: scale(1.2);
+    transition: transform 0.3s ease, color 0.3s ease;
+    color: var(--color-accent);
+}
+
+/* --- HAMBURGUER (MOBILE) --- */
+.hamburger-menu {
+    display: none;
+    /* Esconde por padrão em desktop */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 2.0rem;
+    /* Era 1.5rem */
+    color: var(--color-text-dark);
+    padding: 10px;
+    z-index: 101;
+}
+
+/* Fim dos Estilos do Header */
+
+
+/* Main Container Css (Perfil de Usuário - Onde está o estilo card) */
+.container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas:
+        "userProfile userDetails"
+        "work_skills timeline_about";
+    max-width: 1100px;
+    width: 95%;
+    background: var(--color-secondary);
+    padding: var(--p-card);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    grid-gap: var(--m-large);
+    height: auto;
+    /* Removido o margin-top, ajustado no body > .container */
+    /* Removido o margin-bottom, ajustado no body > .container */
+}
+
+.container .logout-btn {
+    padding: 2px 22px;
+    font-size: 12px;
+    text-align: center;
+    color: #3a1e10;
+    border-radius: 4px;
+    background: none;
+    border: 1px solid var(--color-accent);
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    cursor: pointer;
+}
+
+
+/* container cards Grid-Area Css Start */
+.userProfile {
+    grid-area: userProfile;
+}
+
+.work_skills {
+    grid-area: work_skills;
+}
+
+.userDetails {
+    grid-area: userDetails;
+}
+
+.timeline_about {
+    grid-area: timeline_about;
+}
+
+/* Container cards css - Aplicando o novo padding */
+.container .card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: var(--p-card);
+    height: auto;
+}
+
+/* user main-profile css start */
+.container .userProfile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    padding: var(--p-card) 0 0 0;
+}
+
+
+/* Alinhamento central da imagem de perfil */
+.container .userProfile .profile {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 18rem;
+    height: 18rem;
+}
+
+.container .userProfile .profile figure {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 10%;
+    overflow: hidden;
+    border: 4px solid var(--color-primary);
+    box-shadow: 0 0 15px rgba(207, 162, 102, 0.4);
+}
+
+.container .userProfile .profile figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
+    box-shadow: none;
+
+}
+
+.container .userProfile .profile figure img[alt="Placeholder de Usuário"] {
+    width: 65%;
+    height: 65%;
+    object-fit: contain;
+    opacity: 0.7;
+   
+}
+
+
+/* work & skills css start (Feedback) */
+.container .work_skills {
+    padding: var(--p-card);
+}
+
+.work_skills .work .heading,
+.work_skills .skills .heading {
+    position: relative;
+    font-family: var(--font-playfair);
+    font-size: 1.8rem;
+    /* Era var(--xl-fs) (1.6rem) */
+    color: var(--color-text-dark);
+    text-transform: none;
+    font-weight: 700;
+    margin-bottom: var(--m-medium);
+}
+
+.work_skills .work .heading::before,
+.work_skills .skills .heading::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    height: 0.2rem;
+    width: 5rem;
+    background: var(--color-primary);
+    right: unset;
+}
+
+/* Estilos internos de Work (mantidos) */
+.work_skills .work {
+    margin-bottom: var(--m-large);
+}
+
+.work_skills .work .primary,
+.work_skills .work .secondary {
+    position: relative;
+    margin-bottom: var(--m-medium);
+}
+
+.work_skills .work .primary h1,
+.work_skills .work .secondary h1 {
+    font-size: 1.5rem;
+    /* Era var(--l-fs) (1.4rem) */
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-bottom: var(--m-small);
+}
+
+.work_skills .work .primary span,
+.work_skills .work .secondary span {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-weight: 500;
+    font-size: 1.1rem;
+    /* Era var(--s-fs) (1.0rem) */
+    color: var(--color-text-dark);
+    background: var(--color-accent);
+    padding: 0.2rem 0.8rem;
+    border-radius: 4px;
+}
+
+.work_skills .work .primary p,
+.work_skills .work .secondary p {
+    margin-bottom: var(--m-small);
+    font-size: 1.2rem;
+    /* Era var(--m-fs) (1.1rem) */
+    color: var(--color-text-light);
+    line-height: 1.5;
+}
+
+
+/* ESTILO: Mensagem de Satisfação */
+.userDetails .user-satisfaction-message {
+    margin-top: var(--m-small);
+    margin-bottom: var(--m-medium);
+    padding-bottom: var(--m-small);
+    border-bottom: 1px solid var(--color-accent);
+}
+
+.userDetails .user-satisfaction-message p {
+    font-family: var(--font-playfair);
+    font-style: italic;
+    font-size: 1.6rem;
+    /* Era var(--l-fs) (1.4rem) */
+    color: var(--color-text-dark);
+    line-height: 1.5;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.userDetails .user-satisfaction-message p::before {
+    content: "\201C";
+    font-size: 2.0rem;
+    /* Era var(--xl-fs) (1.6rem) */
+    color: var(--color-primary);
+    position: absolute;
+    left: 0;
+    top: -0.5rem;
+    line-height: 1;
+}
+
+
+/* ESTILO: Seção de Feedback com Estrelas Clicáveis */
+.feedback-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--color-accent);
+}
+
+.feedback-item:last-child {
+    border-bottom: none;
+}
+
+.feedback-item span {
+    font-size: 1.3rem;
+    /* Era var(--m-fs) (1.1rem) */
+    color: var(--color-text-dark);
+    font-weight: 500;
+}
+
+.feedback-stars {
+    font-size: 1.6rem;
+    /* Era var(--l-fs) (1.4rem) */
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.feedback-stars i {
+    color: var(--color-primary);
+    transition: color 0.1s;
+}
+
+.feedback-stars i.empty {
+    color: var(--color-accent);
+}
+
+.feedback-stars i:hover,
+.feedback-stars i:hover~i {
+    color: var(--color-primary);
+}
+
+.feedback-stars i.empty:hover,
+.feedback-stars i.empty:hover~i.empty {
+    color: var(--color-primary);
+}
+
+.feedback-stars i.temp-empty {
+    color: var(--color-accent) !important;
+}
+
+
+/* user details css start */
+.userDetails {
+    position: relative;
+    padding: var(--p-card);
+}
+
+.userDetails .userName h1 {
+    font-family: var(--font-playfair);
+    font-size: 3.2rem;
+    /* Era var(--xxxl-fs) (2.8rem) */
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+
+.userDetails .userName .map {
+    position: static;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: var(--color-text-light);
+    margin-top: 0.5rem;
+    margin-bottom: var(--m-medium);
+}
+
+.userDetails .userName .map .ri {
+    margin-right: var(--m-small);
+    font-size: 1.6rem;
+    /* Era var(--l-fs) (1.4rem) */
+    color: var(--color-primary);
+}
+
+.userDetails .userName .map span {
+    font-size: 1.2rem;
+    /* Era var(--m-fs) (1.1rem) */
+    color: var(--color-text-light);
+    font-weight: 500;
+}
+
+/* Campos não usados */
+.userDetails .userName p {
+    display: none;
+}
+
+.userDetails .rank {
+    display: none;
+}
+
+.userDetails .btns {
+    display: none;
+}
+
+
+/* timeline & about css start */
+.timeline_about {
+    padding: var(--p-card);
+}
+
+.timeline_about .tabs ul {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--m-large);
+}
+
+.timeline_about .tabs ul::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--color-accent);
+}
+
+.timeline_about .tabs ul li {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right: var(--m-large);
+    padding-bottom: var(--m-small);
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.timeline_about .tabs ul li span {
+    font-size: 1.7rem;
+    /* Era var(--about-fs) (1.6rem) */
+    font-weight: 500;
+}
+
+.timeline_about .tabs ul li .ri {
+    margin-right: var(--m-small);
+    color: var(--color-text-dark);
+}
+
+.timeline_about .tabs ul .active span,
+.timeline_about .tabs ul .active .ri {
+    color: var(--color-primary);
+}
+
+.timeline_about .tabs ul li:hover span,
+.timeline_about .tabs ul li:hover .ri {
+    color: var(--color-primary);
+}
+
+.timeline_about .tabs ul .active::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-primary);
+}
+
+/* ESTILO: Botão de Edição na Aba "Sobre" */
+.timeline_about .tabs ul li .edit-btn {
+    background: none;
+    border: 1px solid var(--color-accent);
+    color: var(--color-text-light);
+    cursor: pointer;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    margin-left: var(--m-large);
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.timeline_about .tabs ul li .edit-btn i {
+    font-size: 1.2rem;
+    /* Era var(--m-fs) (1.1rem) */
+    margin-right: 5px;
+    color: var(--color-text-light);
+}
+
+.timeline_about .tabs ul li .edit-btn span {
+    font-size: 1.1rem;
+    /* Era var(--s-fs) (1.0rem) */
+    color: var(--color-text-light);
+    font-weight: 500;
+}
+
+/* Efeito Hover do Botão */
+.timeline_about .tabs ul li .edit-btn:hover {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.timeline_about .tabs ul li .edit-btn:hover i,
+.timeline_about .tabs ul li .edit-btn:hover span {
+    color: #fff;
+}
+
+
+/* Informações de Contato e Básicas (mantidas) */
+.timeline_about .contact_info .heading,
+.timeline_about .basic_info .heading {
+    font-size: 1.1rem;
+    /* Era var(--s-fs) (1.0rem) */
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    margin-bottom: var(--m-medium);
+    font-weight: 600;
+}
+
+.timeline_about .contact_info ul,
+.timeline_about .basic_info ul {
+    margin-bottom: var(--m-large);
+}
+
+.timeline_about .contact_info ul li,
+.timeline_about .basic_info ul li {
+    display: flex;
+    margin: var(--m-small) 0;
+}
+
+.timeline_about .contact_info ul li h1,
+.timeline_about .basic_info ul li h1 {
+    font-weight: 600;
+    font-size: 1.3rem;
+    /* Era var(--m-fs) (1.1rem) */
+    color: var(--color-text-dark);
+    min-width: 12rem;
+}
+
+.timeline_about .contact_info ul li span,
+.timeline_about .basic_info ul li span {
+    font-size: 1.3rem;
+    /* Era var(--m-fs) (1.1rem) */
+    color: var(--color-text-light);
+}
+
+.timeline_about .contact_info ul .phone span,
+.timeline_about .contact_info ul .email span,
+.timeline_about .contact_info ul .site span {
+    color: var(--color-primary);
+    font-weight: 500;
+}
+
+
+/* === ESTILOS DO MODAL DE EDIÇÃO COMPLETO (Mantidos) === */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: var(--m-large);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    padding: var(--p-card);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-accent);
+    padding-bottom: var(--m-small);
+    margin-bottom: var(--m-medium);
+}
+
+.modal-heading {
+    font-family: var(--font-playfair);
+    font-size: 1.8rem;
+    /* Era var(--xl-fs) (1.6rem) */
+    color: var(--color-text-dark);
+    font-weight: 700;
+}
+
+.close-btn {
+    color: var(--color-text-light);
+    font-size: 2.2rem;
+    /* Era var(--xxl-fs) (2.0rem) */
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: var(--color-primary);
+}
+
+/* Estilos do Formulário */
+#editForm label {
+    display: block;
+    margin-top: var(--m-small);
+    font-weight: 600;
+    font-size: 1.2rem;
+    /* Era var(--s-fs) (1.0rem) */
+    color: var(--color-text-dark);
+    text-transform: uppercase;
+}
+
+#editForm input[type="text"],
+#editForm input[type="email"],
+#editForm textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: var(--m-small);
+    border: 1px solid var(--color-accent);
+    border-radius: 4px;
+    font-size: 1.3rem;
+    /* Era var(--m-fs) (1.1rem) */
+    color: var(--color-text-dark);
+    transition: border-color 0.2s;
+}
+
+#editForm input[type="text"]:focus,
+#editForm input[type="email"]:focus,
+#editForm textarea:focus {
+    border-color: var(--color-primary);
+    outline: none;
+}
+
+#editForm textarea {
+    resize: vertical;
+}
+
+.save-btn {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.3rem;
+    /* Era var(--m-fs) (1.1rem) */
+    font-weight: 600;
+    transition: background-color 0.2s;
+    width: 100%;
+    margin-top: var(--m-medium);
+}
+
+.save-btn:hover {
+    background-color: var(--color-dark-button);
+}
+
+
+/* --- NOVO RODAPÉ MINIMALISTA (AJUSTADO PARA A PÁGINA DO USUÁRIO) --- */
+
+.footer-minimal {
+    /* Garante o fundo suave do site */
+    background-color: var(--color-background);
+    color: var(--color-text-light);
+    padding-top: 0;
+    width: 100%;
+    /* 🛠️ Regras de Anulação de Card (Garantia) */
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+
+    /* NOVO: Adiciona a linha divisória no topo do conteúdo do footer */
+    /* Mantida com 1px solid, mas podemos ajustar a cor se necessário para ser mais "minimalista" */
+    border-top: 1px solid var(--color-accent); 
+}
+
+/* NOVO SELETOR: Usado para centralizar o conteúdo do footer (Substitui .container) */
+.footer-max-width {
+    max-width: 1100px;
+    /* Mantém o alinhamento centralizado do conteúdo */
+    width: 95%;
+    margin: 0 auto;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+/* FIM NOVO SELETOR */
+
+/* Ajuste a regra principal do conteúdo do footer para usar a nova classe (Sem .container) */
+.footer-content-wrapper-three-cols {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+
+    /* AJUSTE MAIOR DE ESPAÇAMENTO VERTICAL: Aumentado para corresponder à Imagem 2 */
+    padding-top: 50px; /* Era 60px */
+    padding-bottom: 50px; /* Era 50px */
+
+    /* 🛠️ CORREÇÃO: Força o background transparente ou do site */
+    background-color: var(--color-background) !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+
+/* Estilos Comuns de Coluna (Mantidos) */
+.footer-col-logo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.footer-logo img {
+    height: 90px;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 8px;
+}
+
+.footer-col-logo p {
+    margin: 0;
+    font-size: 1.4em;
+    color: var(--color-text-dark);
+}
+
+.footer-col h3 {
+    font-size: 1.8em;
+    font-family: 'Playfair Display', serif;
+    color: var(--color-text-dark);
+    margin-bottom: 15px;
+    margin-top: 0;
+    font-weight: 600;
+}
+
+.footer-col-links {
+    flex: 1;
+    max-width: 300px;
+    padding-top: 0;
+}
+
+.category-list-two-cols {
+    list-style: none;
+    padding: 0;
+    columns: 1;
+    text-align: left;
+    margin: 0;
+}
+
+.category-list-two-cols li {
+    margin-bottom: 8px;
+    line-height: 1.1;
+    padding: 0;
+}
+
+.footer-col-links a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    font-size: 1.4em;
+    transition: color 0.3s ease;
+}
+
+.footer-col-links a:hover {
+    color: var(--color-primary);
+}
+
+.footer-col-social {
+    flex: 1;
+    max-width: 300px;
+    padding-top: 0;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.social-icons a {
+    color: var(--color-text-dark);
+    font-size: 2.5em;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: var(--color-primary);
+    transform: scale(1.1);
+}
+
+.footer-copyright {
+    /* Linha divisória mais minimalista para se assemelhar à Imagem 2 */
+    border-top: 0.5px solid rgba(207, 162, 102, 0.4); /* Mais fina e translúcida (cor primária com 40% de opacidade) */
+
+    /* AJUSTE MAIOR DE ESPAÇAMENTO VERTICAL: Aumentado para corresponder à Imagem 2 */
+    padding-top: 30px; /* Era 20px */
+    padding-bottom: 30px; /* Era 20px */
+
+    text-align: center;
+    font-size: 1.1em;
+    color: var(--color-text-light);
+    /* 🛠️ CORREÇÃO: Força o background transparente ou do site */
+    background-color: var(--color-background) !important;
+    box-shadow: none !important;
+    /* Remove sombra */
+    border-radius: 0 !important;
+    /* Remove arredondamento */
+}
+
+/* @media Queries (Ajustadas para Mobile) */
+
+@media screen and (max-width: 768px) {
+    /* ... (outras regras de media query mantidas) ... */
+
+    /* Footer adjustments for smaller screens */
+    .footer-content-wrapper-three-cols {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 30px;
+        /* AJUSTE: O padding vertical é ajustado para consistência. */
+        padding: 60px 20px 50px 20px; /* Ajustado para mobile também */
+    }
+
+    .footer-col-logo,
+    .footer-col-links,
+    .footer-col-social {
+        max-width: 100%;
+        /* Ocupa a largura total */
+        align-items: center;
+    }
+
+    /* O footer-max-width não precisa de margin/padding lateral no mobile,
+       pois o wrapper já tem. Apenas garantindo que o margin-left/right é 0 no mobile. */
+    .footer-max-width {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+
+    .footer-col-logo {
+        text-align: center;
+    }
+    
+    .footer-col-logo p {
+        margin: 0 auto;
+        font-size: 1.1em; /* Ajustado para mobile */
+    }
+
+    .category-list-two-cols {
+        columns: 1;
+        width: fit-content;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .footer-col h3 {
+        font-size: 1.4em; /* Ajustado para mobile */
+        margin-bottom: 10px;
+    }
+
+    .footer-col-links a {
+        font-size: 1.1em; /* Ajustado para mobile */
+    }
+
+    .social-icons a {
+        font-size: 1.8em; /* Ajustado para mobile */
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    .footer-copyright {
+        margin-top: 0;
+        padding-top: 25px; /* Ajustado para mobile */
+        padding-bottom: 25px; /* Ajustado para mobile */
+        font-size: 1.0em; /* Ajustado para mobile */
+    }
+}
+/* @media Queries (Mantidas e Ajustadas) */
+
+@media screen and (max-width: 768px) {
+
+    /* Ajuste na grade principal para layout de coluna única */
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "userProfile"
+            "userDetails"
+            "work_skills"
+            "timeline_about";
+        padding: var(--m-large);
+        grid-gap: var(--m-medium);
+    }
+
+    /* Ajuste no padding do container principal */
+    body>.container {
+        padding-top: 5rem;
+        margin-top: 60px;
+        /* Ajuste para o header menor */
+        margin-bottom: 3rem;
+    }
+
+    .top-nav {
+        padding: 0.5rem 1rem;
+    }
+
+    /* Redimensiona a imagem de perfil */
+    .container .userProfile .profile {
+        width: 15rem;
+        height: 15rem;
+    }
+
+    /* Ajusta tamanho da fonte dos títulos */
+    .userDetails .userName h1 {
+        font-size: 2.2rem;
+        /* Era var(--xxl-fs) (2.0rem) */
+    }
+
+    /* Ajusta o texto da localização */
+    .userDetails .userName .map span {
+        font-size: 1.1rem;
+        /* Era var(--s-fs) (1.0rem) */
+    }
+
+    /* Ajusta a aba "Sobre" e o botão de edição */
+    .timeline_about .tabs ul li {
+        padding-bottom: 0.5rem;
+        margin-right: var(--m-medium);
+    }
+
+    .timeline_about .tabs ul li span {
+        font-size: 1.4rem;
+        /* Era var(--l-fs) (1.4rem), mantido para mobile */
+    }
+
+    .timeline_about .tabs ul li .edit-btn {
+        padding: 0.2rem 0.6rem;
+        margin-left: var(--m-medium);
+    }
+
+    /* Estilos dos itens de contato */
+    .timeline_about .contact_info ul li h1 {
+        min-width: 10rem;
+    }
+
+    /* Mobile Menu */
+    .hamburger-menu {
+        display: block;
+    }
+
+    .navbar {
+        position: absolute;
+        top: 60px;
+        /* Abaixo do header */
+        left: 0;
+        width: 100%;
+        background-color: var(--color-secondary);
+        flex-direction: column;
+        align-items: flex-start;
+        height: 0;
+        overflow: hidden;
+        transition: height 0.3s ease-in-out;
+        z-index: 999;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar.open {
+        height: auto;
+        padding: 10px 0;
+    }
+
+    .navbar a {
+        display: block;
+        margin: 0;
+        padding: 10px 20px;
+        width: 100%;
+        border-bottom: 1px solid var(--color-accent);
+    }
+
+    .navbar a:last-child {
+        border-bottom: none;
+    }
+
+    /* Dropdown no Mobile */
+    .dropdown {
+        width: 100%;
+        padding: 0;
+    }
+
+    .dropdown a {
+        padding: 10px 20px;
+        margin: 0;
+        border-bottom: none;
+    }
+
+    .submenu {
+        position: static;
+        transform: none;
+        width: 100%;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+        margin-top: 0;
+        background-color: #f8f0e6;
+        /* Um tom ligeiramente mais escuro para diferenciar */
+    }
+
+    .submenu li a {
+        padding-left: 40px;
+    }
+
+    /* Footer adjustments for smaller screens */
+    .footer-content-wrapper-three-cols {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 30px;
+        /* AJUSTE: O padding vertical é ajustado para consistência. */
+        padding: 40px 20px 30px 20px;
+    }
+
+    .footer-col-logo,
+    .footer-col-links,
+    .footer-col-social {
+        max-width: 100%;
+        /* Ocupa a largura total */
+        align-items: center;
+    }
+
+    /* O footer-max-width não precisa de margin/padding lateral no mobile,
+       pois o wrapper já tem. Apenas garantindo que o margin-left/right é 0 no mobile. */
+    .footer-max-width {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+
+    .footer-col-logo {
+        text-align: center;
+    }
+
+    .footer-col-logo p {
+        margin: 0 auto;
+    }
+
+    .category-list-two-cols {
+        columns: 1;
+        width: fit-content;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    .footer-col h3 {
+        margin-bottom: 10px;
+    }
+
+    .footer-copyright {
+        margin-top: 0;
+        padding-top: 20px;
+    }
+}
