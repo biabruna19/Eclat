@@ -1,0 +1,90 @@
+/* favoritos */
+.card {
+  position: relative; 
+  /* Outros estilos do seu card */
+}
+
+.add-fav {
+  position: absolute;
+  top: 5px; /* Ajustado de 10px para 5px (mais perto do topo) */
+  left: -100px; /* CORREÇÃO: Move para o canto superior esquerdo */
+  right: auto; /* Garante que 'left' funcione sem conflito com 'right' */
+  border: none !important;      /* Remove qualquer borda */
+  background: none !important;  /* Remove o fundo, deixando-o transparente */
+  cursor: pointer;
+  z-index: 5; 
+  padding: 0; 
+  font-size: 0; /* Oculta qualquer texto do botão */
+}
+
+/* Estilo base para o ícone de coração (usaremos a classe 'far' do Font Awesome para o coração vazio) */
+.add-fav i {
+  font-size: 24px; /* Tamanho do ícone */
+  color: #ccc; /* Cor cinza claro para não favorito */
+  text-shadow: 0 0 3px rgba(0,0,0,0.2);
+  transition: color 0.2s ease-in-out; 
+}
+
+/* Estilo para o ícone de coração quando FAVORITADO (classe 'favorited' no botão pai, e 'fas' no ícone) */
+.add-fav.favorited i {
+  color: red; /* Cor vermelha vibrante quando favoritado e preenchido */
+}
+
+/* Estilo para o ícone de coração no HOVER */
+.add-fav:hover i {
+  color: #e00; /* Vermelho no hover */
+  transform: scale(1.1); 
+  transition: transform 0.2s ease-in-out;
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* 2. CORREÇÃO: Organização da Grade de Produtos */
+/* ---------------------------------------------------------------------------------- */
+.cards-grid {
+    display: grid;
+    /* Define 4 colunas uniformes para desktop */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px; /* Espaçamento entre os cards */
+    padding: 20px;
+    max-width: 1200px; /* Limita a largura da grade */
+    margin: 20px auto; /* Centraliza a grade na página */
+}
+
+/* FIM dos favoritos */
+/* Responsividade - Mantida e Corrigida para usar as regras de grid */
+@media (max-width: 1024px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    height: auto;
+  }
+}
+@media (max-width: 768px) {
+  .top-nav {
+    flex-direction: column;
+    padding: 1rem;
+  }
+  .navbar {
+    margin: 1rem 0;
+  }
+  .navbar a {
+    margin: 0 0.5rem;
+    font-size: 1rem;
+  }
+  .banner {
+    height: 250px;
+    font-size: 1.5rem;
+  }
+ .catalogo h2 {
+    font-size: 2rem;
+  }
+  .card {
+    padding: 15px;
+  }
+}

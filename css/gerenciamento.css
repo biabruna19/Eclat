@@ -1,0 +1,355 @@
+/* ------------------------------------- */
+/* RESET E TIPOGRAFIA GERAL */
+/* ------------------------------------- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #FDF6ED; 
+    color: #fff8f1;
+}
+
+.dashboard-container {
+    display: flex; /* Essencial para o layout Sidebar + Conteúdo */
+    min-height: 100vh;
+}
+
+/* ------------------------------------- */
+/* HEADER: TOPO (FIXO) */
+/* ------------------------------------- */
+
+.top-nav {
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #FDF6ED; 
+    border-bottom: 1px solid #FDF6ED;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+    position: fixed;
+    top: 0;
+    left: 250px; /* Desloca o topo para começar após a sidebar */
+    right: 0;
+    height: 65px; /* Altura fixa para harmonizar */
+    z-index: 1000;
+}
+
+/* Para garantir que o outline (a "linha roxa") desapareça ao focar no link */
+.icone-sair:focus {
+    outline: none; /* Remove o contorno padrão do navegador */
+    box-shadow: none; /* Remove qualquer sombra que possa aparecer */
+    outline-style: solid; /* Garante que o outline é visível */
+    outline-color: #fdf6ed; /* Marrom escuro */
+}
+
+/* Regras de cor do ícone (que você já tem) */
+.icone-sair i {
+    color: #fdf6ed; 
+}
+.icone-sair:hover i {
+    color: #e9cda8;
+}
+
+.user-profile a {
+    text-decoration: none; /* Garante que não haja sublinhado */
+}
+
+/* Esta regra ataca o contorno roxo que aparece ao clicar/tocar */
+.user-profile a:focus,
+.user-profile a:active {
+    outline: none;       /* Remove o contorno padrão do navegador */
+    border: none;
+    box-shadow: none;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: #54321D;
+}
+
+.user-profile i {
+    font-size: 20px;
+    color: #cfa266;
+}
+
+
+/* ------------------------------------- */
+/* SIDEBAR: MENU LATERAL (FIXO) */
+/* ------------------------------------- */
+
+.sidebar {
+    width: 250px;
+    background-color: #54321D; /*cor do menu lateral */
+    color: #FDF6ED;
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1001; 
+    box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 24px;
+    color: #ffffff; 
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.sidebar nav a {
+    display: block;
+    padding: 15px 25px;
+    text-decoration: none;
+    color: #ecf0f1;
+    font-size: 16px;
+    border-left: 5px solid transparent;
+    transition: background-color 0.3s, border-left-color 0.3s, color 0.3s;
+}
+
+.sidebar nav a:hover {
+    background-color: #3a1e10; 
+    border-left-color: #cfa266; 
+    color: white;
+}
+
+.sidebar nav a.active {
+    background-color: #54321D; /* Magenta Claro */
+    border-left-color: #54321D; /* Amarelo Vibrante */
+    font-weight: bold;
+    color: white;
+}
+
+/* ------------------------------------- */
+/* CONTEÚDO PRINCIPAL */
+/* ------------------------------------- */
+
+.main-content {
+    margin-left: 250px; /* Garante que o conteúdo comece após a sidebar */
+    padding: 80px 30px 30px 30px; /* Adiciona espaço superior para compensar o top-nav fixo */
+    flex-grow: 1;
+    background-color: #FDF6ED; /* Mantém o fundo da página suave */
+}
+
+.estoque-header {
+    margin-bottom: 40px;
+}
+
+.estoque-header h1 {
+    color: #333;
+    font-size: 2.2em;
+    margin-bottom: 5px;
+}
+
+.estoque-header p {
+    color: #7f8c8d;
+    font-size: 1em;
+    font-weight: normal;
+}
+
+/* ------------------------------------- */
+/* ESTILO GERAL DE TABELA */
+/* ------------------------------------- */
+
+.tabela-estoque {
+    width: 100%;
+    border-collapse: collapse; 
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden; 
+}
+
+.tabela-estoque th, 
+.tabela-estoque td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.tabela-estoque th {
+    background-color: #f5f5f5; 
+    color: #555;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.tabela-estoque tr:hover {
+    background-color: #fcfcfc; 
+}
+
+.tabela-estoque .col-acoes {
+    width: 120px; 
+    text-align: center;
+}
+
+/* ------------------------------------- */
+/* CARDS DE ESTOQUE (Se forem usados) */
+/* ------------------------------------- */
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.card-estoque {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.card-estoque:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+/* ------------------------------------- */
+/* CONTROLES DE ESTOQUE (BOTÕES) */
+/* ------------------------------------- */
+
+.estoque-controles button,
+.btn-novo-produto,
+.btn-cancelar,
+.btn-adicionar {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+.btn-excluir {
+    background-color: #cfa266; /* Rosa Forte */
+    color: white;
+    flex-grow: 1;
+}
+
+.btn-excluir:hover {
+    background-color: #cfa266; 
+}
+
+/* ------------------------------------- */
+/* NOVO PRODUTO (BOTÃO E MODAL) */
+/* ------------------------------------- */
+
+.btn-novo-produto {
+    background-color: #cfa266; /* Rosa Claro */
+    color: #3a1e10;
+    padding: 12px 25px;
+    margin-bottom: 30px;
+    display: inline-block; 
+    font-size: 1.1em;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-novo-produto:hover {
+    background-color: #b1a3fb;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); 
+    backdrop-filter: blur(8px); 
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    z-index: 10000; 
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ações do Modal (Botões de Cancelar/Adicionar) */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 3px; 
+}
+
+.btn-cancelar {
+    background-color: #bdc3c7;
+    color: #333;
+}
+.btn-cancelar:hover {
+    background-color: #a6a6a4;
+}
+
+.btn-adicionar {
+    background-color: #7e7710; 
+    color: white;
+    font-size: 12px;
+}
+.btn-adicionar:hover {
+    background-color: #e6e691;
+}
+
+/* ------------------------------------- */
+/* RESPONSIVIDADE */
+/* ------------------------------------- */
+
+@media (max-width: 900px) {
+    /* Esconde a barra lateral por padrão no mobile/tablet */
+    .sidebar {
+        transform: translateX(-100%); 
+        transition: transform 0.3s ease-in-out;
+        box-shadow: 5px 0 10px rgba(0,0,0,0.3); 
+    }
+
+    /* Classe a ser adicionada via JavaScript para abrir o menu */
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    
+    /* Remove a margem lateral do main-content e o padding lateral do top-nav */
+    .main-content {
+        margin-left: 0;
+        padding-top: 80px; 
+    }
+
+    /* Ajusta o top-nav para ocupar a largura total */
+    .top-nav {
+        left: 0;
+        justify-content: space-between; 
+    }
+
+    /* Permite que o main-content seja o único bloco principal */
+    .dashboard-container {
+        display: block;
+    }
+
+    /* Responsividade da Grid (Se for usar cards) */
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+}

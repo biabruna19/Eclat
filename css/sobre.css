@@ -1,0 +1,530 @@
+/* --- 1. VARIÁVEIS DE COR (ADICIONANDO O TEMA PRATA) --- */
+:root {
+    --color-primary: #cfa266;
+    /* Bronze/Ouro Principal */
+    --color-secondary: #fff8f1;
+    /* Bege Claro para Header */
+    --color-background: #fdf6ed;
+    /* Fundo suave da página (o seu tom de bege) */
+    --color-text-dark: #3a1e10;
+    /* Marrom para Texto Principal e Botões CTA */
+    --color-text-light: #54321D;
+    /* Marrom para Texto Secundário (Links/Títulos) */
+    --color-accent: #e4bba1;
+    /* Tom pêssego/rosa claro para destaque */
+    --color-dark-button: #200e01;
+    /* Marrom muito escuro para o botão */
+
+    /* NOVAS VARIÁVEIS PARA HARMONIZAÇÃO DO OVERLAY (Mantidas) */
+    --color-overlay-dark: rgba(58, 30, 16, 0.85);
+    --color-overlay-light-text: #fdf6ed;
+
+    /* NOVAS VARIÁVEIS PARA TEMA PRATA */
+    --color-silver-light: #d1d9e6;
+    /* Cinza Prata Claro para bordas */
+    --color-silver-dark: #7f8c8d;
+    /* Cinza Prata Escuro para botões/detalhes */
+}
+
+/* --- 2. REGRAS GLOBAIS (Mantidas) --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-text-dark);
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+/* --- CABEÇALHO (Mantido) --- */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--color-secondary);
+}
+
+.logo img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Estilos Navbar e Dropdown... (Mantidos) */
+.navbar a {
+    display: inline-block;
+    margin: 0 2rem;
+    font-size: 1.0rem;
+    color: var(--color-text-light);
+    text-decoration: none;
+    padding-bottom: 0.3rem;
+    border-bottom: 0.1rem solid transparent;
+    transition: all 0.3s ease;
+}
+
+.navbar a:hover {
+    color: var(--color-primary);
+    border-bottom: 0.1rem solid var(--color-primary);
+    transform: scale(1.05);
+}
+
+/* --- SUBMENU (DROPDOWN - Mantido) --- */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+    padding: 0 0 10px 0;
+
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    z-index: 100;
+    padding: 5px 0;
+    margin-top: 5px;
+}
+
+
+.dropdown a {
+    margin: 0 1.5rem;
+    padding: 0.3rem 0;
+    border-bottom: 0.1rem solid transparent;
+    transition: all 0.3s ease;
+}
+
+.dropdown a:hover {
+    color: var(--color-primary);
+    border-bottom: 0.1rem solid var(--color-primary);
+    transform: none;
+}
+
+.submenu li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.submenu li a {
+    display: block;
+    padding: 10px 18px;
+    color: var(--color-text-light);
+    white-space: nowrap;
+    border-bottom: none;
+    font-size: 0.95rem;
+    transition: background 0.3s ease, color 0.3s ease;
+    margin: 0;
+}
+
+.submenu li a:hover {
+    background: var(--color-accent);
+    color: var(--color-dark-button);
+    border-bottom: none;
+    transform: none;
+}
+
+.dropdown.show-submenu .submenu {
+    display: block;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icones i {
+    margin-right: 15px;
+    color: var(--color-text-light);
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.icones i:hover {
+    transform: scale(1.2);
+    transition: transform 0.3s ease, color 0.3s ease;
+    color: var(--color-accent);
+}
+
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif; /* Fonte de texto base */
+    color: #4A4A4A; /* Cor de texto padrão (um cinza escuro) */
+    background-color: #F8F7F3; /* Fundo levemente creme */
+}
+
+/* --- HAMBURGUER (MOBILE) --- */
+/* Adicione este botão no seu HTML, dentro do top-nav */
+.hamburger-menu {
+  display: none;
+  /* Esconde por padrão em desktop */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: var(--color-text-dark);
+  padding: 10px;
+  z-index: 101;
+}
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- Cabeçalho e Navegação --- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    border-bottom: 1px solid #EEE;
+    background-color: #FFFDF8; /* Cor de fundo do cabeçalho */
+    position: relative;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #6B492E; /* Cor marrom da marca */
+}
+
+.logo span {
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 2px;
+    letter-spacing: 1px;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #6B492E;
+    font-weight: 400;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.nav a:hover {
+    color: #A08365;
+}
+
+.icons {
+    display: flex;
+    gap: 15px;
+    font-size: 20px;
+}
+
+/* --- Seção Principal (Hero) --- */
+.essence-hero {
+    background-color: #FFFDF8; /* Fundo da seção */
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden; /* Para garantir que o círculo fique contido */
+}
+
+.essence-hero .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.essence-hero .text-content {
+    flex: 1;
+    max-width: 50%;
+}
+
+.essence-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 60px;
+    font-weight: 700;
+    color: #6B492E;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.essence-hero p {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.essence-hero .image-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.model-image {
+    /* Simulação do background e da imagem da modelo com formas */
+    width: 380px;
+    height: 450px;
+    background-color: #ffffff; /* Cor do círculo/fundo da imagem */
+    border-radius: 50% 50% 10% 10%; /* Forma irregular para simular o design */
+    position: relative;
+    /* Adicionar aqui a imagem da modelo via background-image em um projeto real */
+    background-image: url('../imagens/sobre/imgprincipal.png'); /* Placeholder */
+    background-size: cover;
+    background-position: center;
+}
+
+/* --- Seção de Conteúdo Abaixo (Story) --- */
+.story-section {
+    background-color: #F8F7F3;
+    padding: 80px 0;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.image-box {
+    background-color: #FFFDF8; /* Fundo para a caixa da imagem */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.image-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.text-box {
+    background-color: #FFFDF8; /* Fundo creme mais claro, como na imagem */
+    padding: 40px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.text-box h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: #6B492E;
+    margin-bottom: 20px;
+}
+
+.text-box p {
+    font-size: 15px;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* --- NOVO RODAPÉ MINIMALISTA --- */
+
+.footer-minimal {
+  background-color: var(--color-secondary);
+  color: var(--color-text-light);
+  padding-top: 60px;
+}
+
+.footer-content-wrapper-three-cols {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px 50px 40px;
+  border-bottom: 1px solid rgba(84, 50, 29, 0.1);
+  text-align: left;
+  align-items: flex-start;
+}
+
+/* Estilos Comuns de Coluna - AGORA UNIFORMES */
+.footer-col-logo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.footer-logo img {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.footer-col-logo p {
+  margin: 0;
+  font-size: 0.85em;
+  color: var(--color-text-dark);
+}
+
+.footer-col h3 {
+  font-size: 1.2em;
+  font-family: 'Playfair Display', serif;
+  color: var(--color-text-dark);
+  margin-bottom: 15px;
+  margin-top: 0;
+  font-weight: 600;
+}
+
+.footer-col-links {
+  flex: 1;
+  max-width: 300px;
+  padding-top: 0;
+}
+
+.category-list-two-cols {
+  list-style: none;
+  padding: 0;
+  columns: 1;
+  text-align: left;
+  margin: 0;
+}
+
+.category-list-two-cols li {
+  margin-bottom: 8px;
+  line-height: 1.1;
+  padding: 0;
+}
+
+.footer-col-links a {
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: color 0.3s ease;
+}
+
+.footer-col-links a:hover {
+  color: var(--color-primary);
+}
+
+.footer-col-social {
+  flex: 1;
+  max-width: 300px;
+  padding-top: 0;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.social-icons a {
+  color: var(--color-text-dark);
+  font-size: 1.6em;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: var(--color-primary);
+  transform: scale(1.1);
+}
+
+.footer-copyright {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 0.8em;
+  color: var(--color-text-light);
+}
+
+
+/* Responsividade Básica */
+@media (max-width: 900px) {
+    .essence-hero .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .essence-hero .text-content {
+        max-width: 100%;
+        order: 2;
+    }
+
+    .essence-hero .image-content {
+        order: 1;
+        margin-bottom: 40px;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .header {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav {
+        order: 3;
+        margin-top: 10px;
+    }
+
+    .essence-hero h1 {
+        font-size: 48px;
+    }
+
+/* --- RESPONSIVIDADE DO MENU DE NAVEGAÇÃO --- */
+@media (max-width: 980px) { /* Ponto de quebra maior para o menu */
+    /* OCULTA a navegação completa para liberar espaço */
+    .navbar {
+        display: none; 
+    }
+
+    /* MOSTRA o ícone do menu sanduíche */
+    .hamburger-menu {
+        display: block; 
+    }
+}
+
+/* Você também tem a classe 'top-nav' e 'header'. 
+   Se 'top-nav' é o contêiner, garanta que ele lide com a barra de navegação. 
+   Estou assumindo que 'navbar' contém os links principais. */
+
+@media (max-width: 600px) {
+    /* Garante que o ícone do sanduíche continue visível e os outros elementos se comportem */
+    .top-nav {
+        /* Permite que os elementos se envolvam, se necessário, mas mantém a organização */
+        flex-wrap: wrap; 
+    }
+
+    /* Outras regras de 600px que você já tinha: */
+    /* ... (Mantenha as regras existentes para .header, .nav, etc.) ... */
+}
+
+}
