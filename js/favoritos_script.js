@@ -1,6 +1,9 @@
 // ARQUIVO: ../js/favoritos_script.js
 // Responsável por adicionar/remover favoritos usando Cookie e dar feedback visual.
-
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+});
 // O nome da chave deve ser o mesmo usado no PHP para o cookie (CRÍTICO)
 const FAVORITES_KEY = "eclat_favoritos";
 
