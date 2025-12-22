@@ -4,6 +4,11 @@
  * Responsável por gerenciar e renderizar os itens do carrinho e persistir via AJAX.
  */
 
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+});
+
 // State
 let cart = window.phpCartData || []; 
 let appliedCoupon = null;

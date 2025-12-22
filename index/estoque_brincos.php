@@ -241,7 +241,9 @@ body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, 
         <header class="top-nav">
             <div class="user-profile">
                 <span><?= htmlspecialchars($usuario_nome) ?></span>
-                <i class="fas fa-user"></i>
+               <a href="login.html" style="text-decoration: none; color: inherit;">
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </a>
             </div>
         </header>
 

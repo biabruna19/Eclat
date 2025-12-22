@@ -1,4 +1,10 @@
 // Aguarda o carregamento completo do DOM (Document Object Model) antes de rodar o script
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Elementos do DOM
     const carouselWrapper = document.getElementById('carousel-wrapper');

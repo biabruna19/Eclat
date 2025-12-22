@@ -32,7 +32,15 @@
 }
 
         .logout-btn:hover {
-            background-color: #54321D; /* Tom mais claro no hover */
+            padding: 2px 22px;
+            font-size: 12px;
+            text-align: center;
+            color: #ffffff;
+            border-radius: 4px;
+            background: #cfa266;
+            border: 1px solid var(--color-accent);
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+            cursor: pointer;
         }
         
         /* Ajuste do layout para que o botão fique abaixo da imagem dentro da seção */
@@ -41,7 +49,7 @@
             flex-direction: column;
             align-items: center;
         }
-    </style>
+    </style> 
 </head>
 
 <body>
