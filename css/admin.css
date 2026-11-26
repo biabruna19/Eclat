@@ -1,0 +1,88 @@
+/* Painel administrativo: barra lateral marrom, como na versão original */
+body.admin { background: #fbf4ea; }
+.admin-layout { display: grid; grid-template-columns: 250px 1fr; min-height: 100vh; }
+.lateral { background: #54321d; color: #f4e6d5; padding: 26px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
+.lateral .logo-admin { display: flex; align-items: center; gap: 10px; padding: 0 10px 22px; border-bottom: 1px solid rgba(244, 230, 213, .15); margin-bottom: 16px; text-decoration: none; }
+.lateral .logo-admin img { height: 38px; width: auto; filter: brightness(0) invert(1) sepia(.3); }
+.lateral .logo-admin span { font-family: var(--serifa); font-size: 1.05rem; color: #fff; }
+.lateral nav { display: grid; gap: 2px; }
+.lateral nav a { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 12px; color: #f4e6d5; text-decoration: none; font-size: .93rem; }
+.lateral nav a:hover { background: rgba(255, 255, 255, .08); }
+.lateral nav a[aria-current="page"] { background: #3a1e10; color: #fff; box-shadow: inset 3px 0 0 var(--ouro); }
+.lateral nav .icone { width: 19px; height: 19px; }
+.lateral .grupo { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: #c9ad8e; padding: 18px 14px 6px; }
+.lateral .contagem-menu { margin-left: auto; font-size: .75rem; padding: 1px 8px; border-radius: 10px; background: var(--ouro); color: var(--cafe); font-weight: 600; }
+.lateral-pe { margin-top: auto; padding-top: 18px; display: grid; gap: 6px; }
+.lateral-pe a, .lateral-pe button { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 12px; color: #e9d6bf; font-size: .88rem; text-decoration: none; text-align: left; }
+.lateral-pe a:hover, .lateral-pe button:hover { background: rgba(255, 255, 255, .08); }
+.lateral-pe .icone { width: 18px; height: 18px; }
+.admin-topo { display: flex; align-items: center; gap: 14px; padding: 18px 34px; background: var(--creme-2); border-bottom: 1px solid var(--linha); position: sticky; top: 0; z-index: 20; }
+.admin-topo h1 { font-size: 1.5rem; margin-right: auto; }
+.admin-topo .quem { display: flex; align-items: center; gap: 10px; font-size: .9rem; }
+.admin-topo .quem span { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--ouro); color: var(--cafe); font-weight: 700; font-family: var(--serifa); }
+.botao-lateral { display: none; }
+.admin-conteudo { padding: 30px 34px 60px; }
+.cartoes-resumo { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 26px; }
+.resumo-card { padding: 20px 22px; border-radius: var(--raio); background: #fff; border: 1px solid var(--linha); }
+.resumo-card small { color: var(--cinza); font-size: .82rem; display: flex; align-items: center; gap: 8px; }
+.resumo-card small .icone { width: 17px; height: 17px; color: var(--ouro-texto); }
+.resumo-card strong { display: block; font-size: 1.8rem; font-family: var(--serifa); margin-top: 6px; }
+.resumo-card span { font-size: .8rem; color: var(--cinza); }
+.duas-colunas { display: grid; grid-template-columns: 1.4fr 1fr; gap: 22px; align-items: start; }
+.bloco { background: #fff; border: 1px solid var(--linha); border-radius: var(--raio); padding: 22px; }
+.bloco h2 { font-size: 1.25rem; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.bloco h2 a { font-family: var(--texto); font-size: .85rem; font-weight: 500; }
+.barras { display: grid; gap: 12px; }
+.barra-linha { display: grid; grid-template-columns: 90px 1fr 80px; gap: 12px; align-items: center; font-size: .88rem; }
+.barra-linha .trilho { height: 10px; border-radius: 5px; background: var(--creme); overflow: hidden; }
+.barra-linha .trilho i { display: block; height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--ouro), #a77c43); }
+.barra-linha b { text-align: right; font-weight: 600; }
+.tabela-envolve { overflow-x: auto; background: #fff; border: 1px solid var(--linha); border-radius: var(--raio); }
+table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+th { text-align: left; font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; color: var(--cinza); font-weight: 600; padding: 14px 16px; background: var(--creme-2); border-bottom: 1px solid var(--linha); white-space: nowrap; }
+td { padding: 12px 16px; border-bottom: 1px solid var(--linha); vertical-align: middle; }
+tr:last-child td { border-bottom: 0; }
+tbody tr:hover { background: #fffaf3; }
+td img { width: 48px; height: 48px; object-fit: contain; background: #fff; border: 1px solid var(--linha); border-radius: 10px; padding: 3px; }
+.produto-celula { display: flex; align-items: center; gap: 12px; }
+.produto-celula strong { display: block; font-family: var(--serifa); font-size: 1rem; }
+.produto-celula small { color: var(--cinza); }
+.estoque-ajuste { display: inline-flex; align-items: center; border: 1px solid var(--linha); border-radius: 999px; background: #fff; }
+.estoque-ajuste button { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; }
+.estoque-ajuste button:hover { background: var(--creme); }
+.estoque-ajuste .icone { width: 14px; height: 14px; }
+.estoque-ajuste input { width: 46px; text-align: center; border: 0; font-weight: 600; background: none; -moz-appearance: textfield; }
+.estoque-ajuste input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.estoque-baixo input { color: #b4581f; }
+.estoque-zero input { color: var(--vermelho); }
+.acoes-tabela { display: flex; gap: 6px; justify-content: flex-end; }
+.acoes-tabela button { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; color: var(--marrom-2); }
+.acoes-tabela button:hover { background: var(--creme); }
+.acoes-tabela .icone { width: 18px; height: 18px; }
+.barra-ferramentas { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 18px; }
+.barra-ferramentas .entrada { max-width: 280px; min-height: 42px; }
+.barra-ferramentas select { min-height: 42px; border-radius: 12px; border: 1.5px solid var(--linha); background: #fff; padding: 0 12px; }
+.barra-ferramentas .botao { margin-left: auto; }
+.janela { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px; background: rgba(32, 14, 1, .5); }
+.janela[hidden] { display: none; }
+.janela-caixa { width: min(560px, 100%); max-height: calc(100vh - 40px); overflow-y: auto; background: var(--papel); border-radius: var(--raio-g); box-shadow: var(--sombra-2); padding: 28px; animation: subir .2s ease; }
+.janela-caixa h2 { font-size: 1.5rem; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; }
+.janela-acoes { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+.previa-img { display: flex; align-items: center; gap: 14px; }
+.previa-img img { width: 72px; height: 72px; object-fit: contain; border: 1px solid var(--linha); border-radius: 12px; background: #fff; }
+.detalhe-pedido dl { display: grid; grid-template-columns: 130px 1fr; gap: 8px 14px; font-size: .9rem; margin-bottom: 18px; }
+.detalhe-pedido dt { color: var(--cinza); }
+.detalhe-pedido dd { margin: 0; }
+.historico-status { font-size: .85rem; color: var(--marrom-3); display: grid; gap: 4px; margin-top: 12px; }
+@media (max-width: 1100px) { .cartoes-resumo { grid-template-columns: repeat(2, 1fr); } .duas-colunas { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 860px) {
+    .admin-layout { grid-template-columns: minmax(0, 1fr); }
+    .lateral { position: fixed; left: 0; top: 0; z-index: 120; width: 260px; transform: translateX(-100%); transition: transform .25s; }
+    .lateral.aberta { transform: none; box-shadow: var(--sombra-2); }
+    .botao-lateral { display: grid; }
+    .admin-topo { padding: 14px 16px; }
+    .admin-topo .quem b { display: none; }
+    .admin-conteudo { padding: 20px 14px 50px; }
+    .barra-ferramentas .botao { margin-left: 0; }
+}
+@media (max-width: 560px) { .cartoes-resumo { grid-template-columns: minmax(0, 1fr); } .detalhe-pedido dl { grid-template-columns: 1fr; } .barra-ferramentas .entrada { max-width: none; } }

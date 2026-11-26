@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-raiz="./">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossa história · Éclat Joias</title>
+    <meta name="description" content="Conheça a história da Éclat Joias: tradição, elegância e significado em cada peça.">
+    <meta name="author" content="Beatriz Oliveira">
+    <meta name="theme-color" content="#fff8f1">
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/loja.css?v=202611261543">
+</head>
+<body>
+<div id="topo"></div>
+<main id="conteudo">
+    <section class="container sobre-hero">
+        <div class="revelar">
+            <span class="sobretitulo">Nossa história</span>
+            <h1>Conheça nossa essência</h1>
+            <p>O legado da nossa história se reflete em cada peça, unindo tradição, elegância e significado.</p>
+        </div>
+        <img class="revelar" src="imagens/sobre/ilustracao.webp" alt="Ilustração de uma mulher usando brincos e colar" width="447" height="559">
+    </section>
+
+    <section class="secao secao-papel">
+        <div class="container editorial">
+            <img class="revelar" src="imagens/sobre/historia.webp" alt="Colares, braceletes e brincos dourados sobre linho" loading="lazy" width="600" height="900" style="border-radius:var(--raio-g);box-shadow:var(--sombra-2);aspect-ratio:4/5;object-fit:cover">
+            <div class="revelar">
+                <span class="sobretitulo">A jornada de Éclat</span>
+                <h2>Um brilho que merecia ser visto</h2>
+                <p>A Éclat nasceu não apenas do desejo de criar joias, mas de reacender um brilho. Nossa inspiração veio de uma empreendedora que guardava nas mãos a maestria e a tradição de peças únicas, mas não tinha os recursos nem a visibilidade para mostrar seu trabalho.</p>
+                <p>Vimos no esforço dela um brilho silenciado: uma arte que merecia ser celebrada e compartilhada com o mundo. Nosso propósito virou o resgate desse potencial, oferecendo não só uma vitrine, mas uma parceria para florescer.</p>
+                <p>Cada peça carrega a força desse recomeço, unindo essa paixão com a sofisticação atemporal e o savoir-faire francês. Nossas coleções são uma homenagem ao estilo parisiense e à elegância da Riviera.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="secao">
+        <div class="container">
+            <div class="cabecalho-secao revelar">
+                <span class="sobretitulo">O que nos guia</span>
+                <h2>Tradição, elegância e significado</h2>
+            </div>
+            <div class="valores">
+                <div class="beneficio revelar" data-icone="joia"><h3>Tradição</h3><p>Técnicas artesanais passadas de geração em geração, com acabamento feito à mão.</p></div>
+                <div class="beneficio revelar" data-icone="estrela"><h3>Elegância</h3><p>Design inspirado na alta costura francesa, pensado para durar além das tendências.</p></div>
+                <div class="beneficio revelar" data-icone="coracao"><h3>Significado</h3><p>Cada coleção tem um nome e uma história, para que a joia também conte a sua.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="secao secao-clara">
+        <div class="container numeros revelar" id="numeros">
+            <div><strong data-ate="118">0</strong><span>peças no catálogo</span></div>
+            <div><strong data-ate="10">0</strong><span>coleções</span></div>
+            <div><strong data-ate="925">0</strong><span>prata de lei</span></div>
+            <div><strong data-ate="18">0</strong><span>quilates no ouro</span></div>
+        </div>
+    </section>
+</main>
+<div id="rodape"></div>
+<script src="./js/catalogo.js?v=202611261543"></script>
+<script src="./js/loja.js?v=202611261543"></script>
+<script>
+    document.querySelectorAll('[data-icone]').forEach(el => el.insertAdjacentHTML('afterbegin', Loja.icone(el.dataset.icone)));
+    // números que sobem quando aparecem na tela
+    (function () {
+        const caixa = document.getElementById('numeros');
+        const contar = () => caixa.querySelectorAll('[data-ate]').forEach(el => {
+            const fim = +el.dataset.ate, ini = performance.now();
+            const passo = (t) => { const k = Math.min(1, (t - ini) / 1200); el.textContent = Math.round(fim * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(passo); };
+            requestAnimationFrame(passo);
+        });
+        if (!('IntersectionObserver' in window)) return contar();
+        const obs = new IntersectionObserver((e) => { if (e[0].isIntersecting) { contar(); obs.disconnect(); } });
+        obs.observe(caixa);
+    })();
+</script>
+</body>
+</html>

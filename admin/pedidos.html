@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-raiz="../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos · Éclat Joias</title>
+    <meta name="description" content="Pedidos da Éclat Joias.">
+    <meta name="author" content="Beatriz Oliveira">
+    <meta name="theme-color" content="#fff8f1">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/loja.css?v=202611261543">
+    <link rel="stylesheet" href="../css/admin.css?v=202611261543">
+</head>
+<body class="admin" data-admin="pedidos">
+<div class="admin-layout">
+<div id="lateral"></div>
+<div>
+<header class="admin-topo" id="adminTopo" data-titulo="Pedidos"></header>
+<main id="conteudo" class="admin-conteudo">
+<div class="barra-ferramentas">
+    <label class="sr-only" for="buscaPedido">Buscar pedido</label>
+    <input class="entrada" id="buscaPedido" type="search" placeholder="Número ou cliente">
+    <label class="sr-only" for="statusFiltro">Status</label>
+    <select id="statusFiltro"></select>
+</div>
+<div class="tabela-envolve">
+    <table>
+        <thead><tr><th>Pedido</th><th>Data</th><th>Cliente</th><th>Itens</th><th>Total</th><th>Pagamento</th><th>Status</th><th><span class="sr-only">Ações</span></th></tr></thead>
+        <tbody id="linhas"></tbody>
+    </table>
+</div>
+<div class="janela" id="janelaPedido" role="dialog" aria-modal="true" aria-labelledby="tituloPedido" hidden>
+    <div class="janela-caixa detalhe-pedido" id="detalhe"></div>
+</div>
+</main>
+</div>
+</div>
+<script src="../js/catalogo.js?v=202611261543"></script>
+<script src="../js/loja.js?v=202611261543"></script>
+<script src="../js/admin.js?v=202611261543"></script>
+<script src="../js/paginas/admin-pedidos.js?v=202611261543"></script>
+</body>
+</html>
