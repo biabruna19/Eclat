@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-raiz="../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque · Éclat Joias</title>
+    <meta name="description" content="Estoque da Éclat Joias.">
+    <meta name="author" content="Beatriz Oliveira">
+    <meta name="theme-color" content="#fff8f1">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/loja.css?v=202611261543">
+    <link rel="stylesheet" href="../css/admin.css?v=202611261543">
+</head>
+<body class="admin" data-admin="estoque">
+<div class="admin-layout">
+<div id="lateral"></div>
+<div>
+<header class="admin-topo" id="adminTopo" data-titulo="Estoque"></header>
+<main id="conteudo" class="admin-conteudo">
+<p class="ajuda" id="sub" style="margin:-8px 0 18px"></p>
+<div class="barra-ferramentas">
+    <label class="sr-only" for="filtro">Buscar no estoque</label>
+    <input class="entrada" id="filtro" type="search" placeholder="Buscar por nome">
+    <label class="sr-only" for="linhaFiltro">Coleção</label>
+    <select id="linhaFiltro"></select>
+    <label class="marcar"><input type="checkbox" id="soBaixo"> Só estoque baixo</label>
+    <button type="button" class="botao botao-ouro botao-pequeno" id="novo">Adicionar produto</button>
+</div>
+<div class="tabela-envolve">
+    <table>
+        <thead><tr><th>Produto</th><th>Coleção</th><th>Preço</th><th>Estoque</th><th><span class="sr-only">Ações</span></th></tr></thead>
+        <tbody id="linhas"></tbody>
+    </table>
+</div>
+
+<div class="janela" id="janelaProduto" role="dialog" aria-modal="true" aria-labelledby="tituloJanela" hidden>
+    <form class="janela-caixa" id="formProduto" novalidate>
+        <h2><span id="tituloJanela">Produto</span><button type="button" class="botao-icone" data-fechar-janela aria-label="Fechar">✕</button></h2>
+        <div class="form-pilha">
+            <div class="campo"><label for="pNome">Nome</label><input id="pNome" required><span class="erro" id="erro-pNome"></span></div>
+            <div class="campo"><label for="pDesc">Descrição</label><textarea id="pDesc" rows="2" required></textarea><span class="erro" id="erro-pDesc"></span></div>
+            <div class="grade-form">
+                <div class="campo col-2"><label for="pLinha">Coleção</label><select id="pLinha"></select></div>
+                <div class="campo col-2"><label for="pPreco">Preço (R$)</label><input id="pPreco" inputmode="decimal" required><span class="erro" id="erro-pPreco"></span></div>
+                <div class="campo col-2"><label for="pEstoque">Estoque</label><input id="pEstoque" type="number" min="0" step="1" required><span class="erro" id="erro-pEstoque"></span></div>
+            </div>
+            <div class="campo">
+                <label for="pImg">Foto</label>
+                <div class="previa-img"><img id="pPrevia" src="" alt=""><input id="pImg" type="file" accept="image/*"></div>
+                <span class="ajuda">Opcional. Na demonstração a foto fica salva no navegador (até 1 MB).</span>
+            </div>
+        </div>
+        <div class="janela-acoes"><button type="button" class="botao botao-contorno botao-pequeno" data-fechar-janela>Cancelar</button><button type="submit" class="botao botao-escuro botao-pequeno">Salvar</button></div>
+    </form>
+</div>
+</main>
+</div>
+</div>
+<script src="../js/catalogo.js?v=202611261543"></script>
+<script src="../js/loja.js?v=202611261543"></script>
+<script src="../js/admin.js?v=202611261543"></script>
+<script src="../js/paginas/admin-estoque.js?v=202611261543"></script>
+</body>
+</html>
