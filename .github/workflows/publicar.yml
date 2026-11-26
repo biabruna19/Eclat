@@ -1,0 +1,25 @@
+name: Publicar no GitHub Pages
+
+# A cada mudança no main, copia a loja para a branch gh-pages.
+# Na primeira vez, o GitHub ativa o Pages sozinho ao ver essa branch.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publicar
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          exclude_assets: '.github,docs,README.md'
+          enable_jekyll: false
