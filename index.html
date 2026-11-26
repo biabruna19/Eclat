@@ -3,113 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Éclat Joias · joias em prata 925 e ouro 18k</title>
-    <meta name="description" content="Éclat Joias: colares, brincos, anéis, relógios e braceletes em prata 925 e ouro 18k, inspirados na Riviera Francesa.">
+    <title>Éclat Joias · joias em ouro 18k e prata 925</title>
+    <meta name="description" content="Éclat Joias: colares, brincos, anéis, relógios e braceletes em ouro 18k e prata 925, inspirados na Riviera Francesa.">
     <meta name="author" content="Beatriz Oliveira">
-    <meta name="theme-color" content="#fff8f1">
+    <meta name="theme-color" content="#fbf8f3">
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./css/loja.css?v=202611261543">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/loja.css?v=202611261701">
 </head>
 <body>
 <div id="topo"></div>
 <main id="conteudo">
-    <section class="hero" aria-label="Éclat Joias">
-        <div class="container hero-conteudo">
-            <h1 class="sr-only">Éclat Joias</h1>
-            <div class="hero-acoes">
-                <a class="botao botao-escuro" href="#categorias">Conhecer as coleções</a>
-                <a class="botao botao-claro" href="colecao.html?categoria=aneis&amp;linha=dourado">Coleção Riviera</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="secao" id="categorias">
-        <div class="container">
-            <div class="cabecalho-secao revelar">
-                <span class="sobretitulo">Nosso brilho para você</span>
-                <h2>Explore por categoria</h2>
-                <p>Cada categoria tem duas coleções: uma em prata 925 e outra banhada a ouro 18k.</p>
-            </div>
-            <div class="categorias" id="listaCategorias"></div>
-        </div>
-    </section>
-
-    <section class="secao secao-clara" aria-label="Novidades">
-        <div class="container">
-            <div class="carrossel revelar" id="carrossel" aria-roledescription="carrossel">
-                <div class="carrossel-trilho" id="trilho">
-                    <a class="slide" href="colecao.html?categoria=brincos" aria-label="Nova coleção de brincos"><img src="imagens/home/slide-brincos.webp" alt="Nova coleção de brincos" width="1600" height="900"></a>
-                    <a class="slide" href="colecao.html?categoria=aneis" aria-label="Nova coleção de anéis"><img src="imagens/home/slide-aneis.webp" alt="Nova coleção de anéis" width="1600" height="900" loading="lazy"></a>
-                    <a class="slide" href="colecao.html?categoria=colares" aria-label="Nova coleção de colares"><img src="imagens/home/slide-colares.webp" alt="Nova coleção de colares" width="1600" height="900" loading="lazy"></a>
+        <!-- Abertura -->
+        <section class="abertura">
+            <div class="abertura-texto">
+                <span class="miuda dourada">Nova coleção · Riviera</span>
+                <h1>Joias que contam<br><em>a sua história</em></h1>
+                <p>Peças em ouro 18k e prata 925 inspiradas na Riviera Francesa, feitas para atravessar gerações.</p>
+                <div class="abertura-acoes">
+                    <a class="botao botao-escuro" href="colecao.html?categoria=aneis&amp;linha=dourado">Descobrir a coleção</a>
+                    <a class="botao botao-contorno" href="#presentes">Presentes</a>
                 </div>
-                <button type="button" class="seta seta-esq" id="anterior" aria-label="Novidade anterior"></button>
-                <button type="button" class="seta seta-dir" id="proxima" aria-label="Próxima novidade"></button>
-                <div class="carrossel-controles"><div class="pontos" id="pontos"></div></div>
+                <p class="abertura-selo miuda">Certificado de autenticidade em todas as peças</p>
             </div>
-        </div>
-    </section>
+            <div class="abertura-fotos" id="aberturaFotos">
+                <img class="ativa" src="imagens/editorial/retrato-brincos.webp" alt="Mulher usando brincos e anéis dourados" width="844" height="1500">
+                <img src="imagens/editorial/retrato-maos.webp" alt="Mãos com anéis e braceletes dourados" width="844" height="1500">
+                <img src="imagens/editorial/retrato-colar.webp" alt="Colares dourados sobre camisa de linho" width="844" height="1500">
+                <a class="abertura-legenda" href="colecao.html?categoria=aneis&amp;linha=dourado">
+                    <div><strong id="legendaTitulo">Coleção Riviera</strong><small id="legendaSub">Anéis em ouro 18k</small></div>
+                    <span data-icone="seta"></span>
+                </a>
+                <div class="abertura-pontos" id="aberturaPontos"></div>
+            </div>
+        </section>
 
-    <section class="secao">
-        <div class="container">
-            <div class="linha-titulo revelar">
-                <div><span class="sobretitulo">Mais desejados</span><h2>As queridinhas da semana</h2></div>
-                <a class="link" href="colecao.html?ordem=destaques">Ver todas as joias</a>
-            </div>
-            <div class="grade-produtos" id="destaques"></div>
+        <div class="valores-faixa miuda">
+            <div><span data-icone="joia"></span>Ouro 18k e prata 925</div>
+            <div><span data-icone="escudo"></span>Certificado de autenticidade</div>
+            <div><span data-icone="presente"></span>Embalagem de presente</div>
+            <div><span data-icone="caminhao"></span>Troca em 30 dias</div>
         </div>
-    </section>
 
-    <section class="secao secao-papel">
-        <div class="container editorial">
-            <div class="editorial-fotos revelar">
-                <img src="imagens/home/retrato-1.webp" alt="Mulher usando anéis e braceletes dourados" loading="lazy" width="506" height="900">
-                <img src="imagens/home/retrato-3.webp" alt="Mulher usando brincos e anéis dourados" loading="lazy" width="506" height="900">
-            </div>
-            <div class="revelar">
-                <span class="sobretitulo">Éclat: a sua essência</span>
-                <h2>Luxo em cada detalhe</h2>
-                <p>A Éclat nasceu de uma paixão por peças que atravessam o tempo. Cada criação une tradição, elegância e significado num design moderno e sofisticado.</p>
-                <p>Usamos apenas ouro 18k e prata 925, para que as joias durem tanto quanto as memórias que elas guardam. Mais do que joias, criamos heranças.</p>
-                <a class="botao botao-escuro" href="sobre.html">Conheça nossa história</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="secao">
-        <div class="container">
-            <div class="beneficios">
-                <div class="beneficio revelar" data-icone="caminhao"><h3>Envio rápido</h3><p>Embalagem de presente e rastreamento em todas as compras. Frete grátis acima de R$ 999.</p></div>
-                <div class="beneficio revelar" data-icone="escudo"><h3>Compra segura</h3><p>Pix com 5% de desconto, cartão em até 10x sem juros ou boleto.</p></div>
-                <div class="beneficio revelar" data-icone="joia"><h3>Garantia Éclat</h3><p>Certificado de autenticidade e garantia contra defeitos de fabricação.</p></div>
-                <div class="beneficio revelar" data-icone="presente"><h3>Troca fácil</h3><p>Não serviu ou não combinou? Você tem 30 dias para trocar.</p></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="secao" style="padding-top:0">
-        <div class="container">
-            <div class="newsletter revelar">
-                <div>
-                    <span class="sobretitulo" style="color:var(--ouro)">Seja exclusiva</span>
-                    <h2>Receba os lançamentos antes de todo mundo</h2>
-                    <p>E ganhe o cupom <strong style="color:#fff">BEMVINDA15</strong> para a primeira compra.</p>
+        <!-- Categorias -->
+        <section class="secao">
+            <div class="envolve">
+                <div class="titulo-secao revelar">
+                    <div class="ornamento"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></div>
+                    <h2>Explore por <em>categoria</em></h2>
                 </div>
-                <form id="formNews" novalidate>
-                    <label class="sr-only" for="emailNews">Seu e-mail</label>
-                    <input id="emailNews" type="email" placeholder="Seu melhor e-mail" autocomplete="email" required>
-                    <button type="submit" class="botao botao-ouro">Quero receber</button>
-                </form>
+                <div class="categorias" id="categorias"></div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>
+
+        <!-- Capítulos -->
+        <section class="secao" style="padding-top:0">
+            <div class="envolve" id="capitulos"></div>
+        </section>
+
+        <!-- Novidades -->
+        <section class="secao" style="background:var(--areia)">
+            <div class="envolve">
+                <div class="cab-carrossel revelar">
+                    <div><span class="miuda dourada">Acabaram de chegar</span><h2>Novidades</h2></div>
+                    <div class="setas"><button type="button" id="voltar" aria-label="Anteriores" data-icone="esquerda"></button><button type="button" id="avancar" aria-label="Próximas" data-icone="direita"></button></div>
+                </div>
+                <div class="trilho" id="trilho"></div>
+                <div style="text-align:center;margin-top:56px"><a class="link-sublinhado" href="colecao.html">Ver todas as joias <span data-icone="seta"></span></a></div>
+            </div>
+        </section>
+
+        <!-- Frase -->
+        <section class="frase">
+            <div class="ornamento"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></div>
+            <blockquote>“Mais do que joias, criamos heranças.”</blockquote>
+            <p class="miuda">Éclat Joias · desde 2025</p>
+        </section>
+
+        <!-- Presentes -->
+        <section class="secao" id="presentes">
+            <div class="envolve">
+                <div class="titulo-secao revelar">
+                    <span class="miuda dourada">Para presentear</span>
+                    <h2>Um presente <em>inesquecível</em></h2>
+                    <p>Todas as peças vão em caixa de presente, com cartão escrito à mão.</p>
+                </div>
+                <div class="presentes">
+                    <a class="presente revelar" href="colecao.html?ordem=menor"><img src="imagens/editorial/argolas.webp" alt="" loading="lazy"><div><span class="miuda">Presentes</span><h3>Até R$ 500</h3><span class="link-sublinhado">Ver peças</span></div></a>
+                    <a class="presente revelar" href="colecao.html?categoria=aneis"><img src="imagens/editorial/aneis-linho.webp" alt="" loading="lazy"><div><span class="miuda">Presentes</span><h3>De R$ 500 a R$ 1.000</h3><span class="link-sublinhado">Ver peças</span></div></a>
+                    <a class="presente revelar" href="colecao.html?ordem=maior"><img src="imagens/editorial/colar-pedestal.webp" alt="" loading="lazy"><div><span class="miuda">Peças especiais</span><h3>Acima de R$ 1.000</h3><span class="link-sublinhado">Ver peças</span></div></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conjunto -->
+        <section class="envolve revelar" style="margin-bottom:130px">
+            <div class="conjunto">
+                <div class="conjunto-foto"><img src="imagens/editorial/maos-aneis.webp" alt="Mão com anéis dourados" loading="lazy"></div>
+                <div class="conjunto-texto">
+                    <span class="miuda dourada">Monte seu conjunto</span>
+                    <h2>Combinações <em>douradas</em></h2>
+                    <p>Escolha as peças que combinam entre si e ganhe 10% de desconto levando o conjunto completo.</p>
+                    <div class="itens-conjunto" id="itensConjunto"></div>
+                    <div class="total-conjunto"><span class="miuda">Total do conjunto</span><div><s id="totalCheio"></s><strong id="totalConjunto"></strong></div></div>
+                    <button type="button" class="botao botao-escuro" id="levarConjunto">Adicionar à sacola</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Serviços -->
+        <section class="envolve servicos">
+            <div class="servico revelar"><span data-icone="editar"></span><h3>Gravação personalizada</h3><p>Iniciais ou uma data especial gravadas em anéis e braceletes.</p><a class="link-sublinhado" href="#">Saiba mais</a></div>
+            <div class="servico revelar"><span data-icone="presente"></span><h3>Embalagem de presente</h3><p>Caixa exclusiva e cartão com a sua mensagem, sem custo.</p><a class="link-sublinhado" href="#">Saiba mais</a></div>
+            <div class="servico revelar"><span data-icone="joia"></span><h3>Guia de tamanhos</h3><p>Descubra o aro ideal do anel em casa, em dois minutos.</p><a class="link-sublinhado" href="#">Ver o guia</a></div>
+            <div class="servico revelar"><span data-icone="usuario"></span><h3>Atendimento exclusivo</h3><p>Uma consultora ajuda você a escolher a peça certa.</p><a class="link-sublinhado" href="#">Falar agora</a></div>
+        </section>
+
+        <!-- Instagram -->
+        <section class="secao">
+            <div class="titulo-secao revelar" style="margin-bottom:46px">
+                <span class="miuda dourada">Siga a Éclat</span>
+                <h2><a href="https://www.instagram.com/eclatjoias_oficial/" target="_blank" rel="noopener">@eclatjoias_oficial</a></h2>
+            </div>
+            <div class="insta">
+                <a href="https://www.instagram.com/eclatjoias_oficial/" target="_blank" rel="noopener" aria-label="Instagram"><img src="imagens/editorial/retrato-colar.webp" alt="" loading="lazy"></a>
+                <a href="https://www.instagram.com/eclatjoias_oficial/" target="_blank" rel="noopener" aria-label="Instagram"><img src="imagens/editorial/argolas.webp" alt="" loading="lazy"></a>
+                <a href="https://www.instagram.com/eclatjoias_oficial/" target="_blank" rel="noopener" aria-label="Instagram"><img src="imagens/editorial/retrato-maos.webp" alt="" loading="lazy"></a>
+                <a href="https://www.instagram.com/eclatjoias_oficial/" target="_blank" rel="noopener" aria-label="Instagram"><img src="imagens/editorial/colar-pedestal.webp" alt="" loading="lazy"></a>
+                <a href="https://www.instagram.com/eclatjoias_oficial/" target="_blank" rel="noopener" aria-label="Instagram"><img src="imagens/editorial/joias-linho.webp" alt="" loading="lazy"></a>
+                <a href="https://www.instagram.com/eclatjoias_oficial/" target="_blank" rel="noopener" aria-label="Instagram"><img src="imagens/editorial/aneis-linho.webp" alt="" loading="lazy"></a>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="carta">
+            <span class="miuda dourada">Carta Éclat</span>
+            <h2>Seja a primeira a saber</h2>
+            <p>Lançamentos, convites e 15% de desconto na primeira compra.</p>
+            <form id="formCarta" novalidate>
+                <label class="sr-only" for="emailCarta">Seu e-mail</label>
+                <input id="emailCarta" type="email" placeholder="Seu e-mail" autocomplete="email">
+                <button type="submit" class="miuda">Assinar <span data-icone="seta"></span></button>
+            </form>
+        </section>
+    </main>
 <div id="rodape"></div>
-<script src="./js/catalogo.js?v=202611261543"></script>
-<script src="./js/loja.js?v=202611261543"></script>
-<script src="./js/paginas/inicio.js?v=202611261543"></script>
+<script src="./js/catalogo.js?v=202611261701"></script>
+<script src="./js/loja.js?v=202611261701"></script>
+<script src="./js/paginas/inicio.js?v=202611261701"></script>
 
 </body>
 </html>

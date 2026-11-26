@@ -14,12 +14,17 @@ E-commerce de uma joalheria fictícia, com colares, brincos, anéis, relógios e
 
 A loja funciona do começo ao fim: dá para escolher as joias, montar a sacola, criar uma conta, finalizar a compra e acompanhar o pedido. Há também um painel administrativo para cuidar do estoque e dos pedidos.
 
+## Visual
+
+O layout segue o estilo das joalherias de luxo: logo no centro, menu em letras pequenas com um menu grande que mostra as coleções, muito espaço vazio, botões retos e traços finos em dourado. As fotos dos produtos foram padronizadas (todas as joias centralizadas e do mesmo tamanho), e ao passar o mouse aparece uma segunda foto com a joia em uso.
+
 ## O que dá para fazer
 
 **Na loja**
-- Navegar pelas coleções, filtrar por prata ou dourado, ordenar por preço e esconder o que está esgotado.
+- Navegar pelas coleções, filtrar por ouro ou prata, ordenar por preço e esconder o que está esgotado.
+- Montar um conjunto (colar, brinco e anel da mesma linha) com 10% de desconto na página inicial.
 - Buscar joias pelo nome, material ou pedra. A busca funciona com ou sem acento.
-- Ver cada joia na sua página, com zoom na foto, parcelamento, preço no Pix, aviso de "últimas unidades" e cálculo de frete pelo CEP.
+- Ver cada joia na sua página, com galeria (a peça e a foto com modelo), zoom, parcelamento, preço no Pix, aviso de "últimas unidades" e cálculo de frete pelo CEP.
 - Salvar favoritos e montar a sacola. A sacola lateral abre a cada joia adicionada e mostra quanto falta para o frete grátis.
 - Usar cupons de desconto (na demonstração: `ECLAT10`, `BEMVINDA15` e `FRETEGRATIS`).
 - Finalizar a compra:

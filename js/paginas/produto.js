@@ -26,7 +26,13 @@
         const disp = p.estoque <= 0 ? ['esgotado', 'Esgotado no momento'] : p.estoque <= 3 ? ['pouco', `Corre! Só ${p.estoque === 1 ? 'resta 1 unidade' : `restam ${p.estoque} unidades`}`] : ['', 'Em estoque, pronta para envio'];
         $('area').innerHTML = `
         <div class="pagina-produto">
-            <div class="foto-produto" id="foto"><img src="${Loja.img(p.img)}" alt="${escapar(c.singular + ' ' + p.nome)}" width="600" height="600"></div>
+            <div class="galeria">
+                <div class="foto-produto" id="foto"><img src="${Loja.img(p.img)}" alt="${escapar(c.singular + ' ' + p.nome)}" width="640" height="640"></div>
+                <div class="miniaturas" role="group" aria-label="Fotos">
+                    <button type="button" data-foto="peca" aria-pressed="true" aria-label="Foto da peça"><img src="${Loja.img(p.img)}" alt=""></button>
+                    <button type="button" data-foto="look" aria-pressed="false" aria-label="Foto com modelo"><img src="imagens/editorial/${Loja.FOTO_LOOK[p.categoria]}.webp" alt=""></button>
+                </div>
+            </div>
             <div class="detalhe">
                 <span class="sobretitulo">${c.singular} · Coleção ${escapar(col.nome)}</span>
                 <h1>${escapar(p.nome)}</h1>
@@ -44,11 +50,16 @@
                     <button type="button" class="botao botao-escuro" id="adicionar" ${p.estoque <= 0 ? 'disabled' : ''}>${icone('sacola')} ${p.estoque <= 0 ? 'Esgotado' : 'Adicionar à sacola'}</button>
                     <button type="button" class="coracao-grande" data-favorito="${p.id}" aria-pressed="${fav}" aria-label="Salvar nos favoritos">${icone('coracao')}</button>
                 </div>
+                <div class="garantias">
+                    <div>${icone('escudo')}Certificado de autenticidade</div>
+                    <div>${icone('presente')}Embalagem de presente</div>
+                    <div>${icone('caminhao')}Troca em 30 dias</div>
+                </div>
                 <form class="calc-frete" id="formFrete" novalidate>
                     <label for="cep">${icone('caminhao')} Calcular frete e prazo</label>
                     <div class="linha-form">
                         <input class="entrada" id="cep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9">
-                        <button type="submit" class="botao botao-contorno botao-pequeno">Calcular</button>
+                        <button type="submit" class="botao botao-contorno">Calcular</button>
                     </div>
                     <ul class="resultado-frete" id="resultadoFrete" aria-live="polite"></ul>
                 </form>
@@ -83,9 +94,18 @@
             localStorage.setItem('eclat_cep', cep.value);
             $('resultadoFrete').innerHTML = `<li><span>Entrega para ${r.regiao}</span></li>` + r.opcoes.map(o => `<li><span>${o.nome} · até ${o.dias} dias úteis</span><strong>${o.preco ? real(o.preco) : 'Grátis'}</strong></li>`).join('');
         });
-        // zoom acompanhando o mouse
+        // galeria: foto da peça ou com modelo
         const foto = $('foto'), im = foto.querySelector('img');
+        document.querySelectorAll('[data-foto]').forEach(b => b.addEventListener('click', () => {
+            const look = b.dataset.foto === 'look';
+            document.querySelectorAll('[data-foto]').forEach(x => x.setAttribute('aria-pressed', x === b));
+            im.src = look ? `imagens/editorial/${Loja.FOTO_LOOK[p.categoria]}.webp` : Loja.img(p.img);
+            foto.classList.toggle('editorial-foto', look);
+            foto.classList.remove('zoom');
+        }));
+        // zoom acompanhando o mouse (só na foto da peça)
         foto.addEventListener('mousemove', (e) => {
+            if (foto.classList.contains('editorial-foto')) return;
             const r = foto.getBoundingClientRect();
             im.style.transformOrigin = `${((e.clientX - r.left) / r.width) * 100}% ${((e.clientY - r.top) / r.height) * 100}%`;
             foto.classList.add('zoom');

@@ -277,27 +277,29 @@
     }
 
     // ---------- Cartão de produto ----------
+    // Segunda foto (ao passar o mouse): uma foto de modelo da categoria
+    const FOTO_LOOK = { aneis: 'maos-aneis', brincos: 'retrato-brincos', colares: 'retrato-colar', braceletes: 'retrato-maos', relogios: 'aneis-linho' };
     function cartao(p) {
         const fav = ehFavorito(p.id);
         const esgotado = p.estoque <= 0;
-        const selo = esgotado ? '<span class="selo selo-esgotado">Esgotado</span>' : p.estoque <= 3 ? `<span class="selo selo-ultimas">Últimas ${p.estoque}</span>` : '';
+        const etiqueta = esgotado ? '<span class="peca-etiqueta miuda esgotada">Esgotado</span>' : p.estoque <= 3 ? `<span class="peca-etiqueta miuda">Últimas ${p.estoque}</span>` : '';
         const link = `${RAIZ}produto.html?id=${encodeURIComponent(p.id)}`;
         return `
-        <article class="produto" data-id="${p.id}">
-            <a class="produto-foto" href="${link}" tabindex="-1" aria-hidden="true">
-                <img src="${img(p.img)}" alt="" loading="lazy" width="300" height="300">
-            </a>
-            ${selo}
-            <button type="button" class="coracao" data-favorito="${p.id}" aria-pressed="${fav}" aria-label="${fav ? 'Tirar dos favoritos' : 'Salvar nos favoritos'}: ${escapar(p.nome)}">${icone('coracao')}</button>
-            <div class="produto-info">
-                <span class="produto-colecao">${escapar(colecao(p))}</span>
+        <article class="peca produto ${esgotado ? 'esgotada' : ''}" data-id="${p.id}">
+            <div class="peca-midia">
+                <a class="peca-foto" href="${link}" aria-label="${escapar(p.nome)}">
+                    <img class="foto-1" src="${img(p.img)}" alt="" loading="lazy" width="640" height="640">
+                    <img class="foto-2" src="${RAIZ}imagens/editorial/${FOTO_LOOK[p.categoria] || 'joias-linho'}.webp" alt="" loading="lazy">
+                </a>
+                ${etiqueta}
+                <button type="button" class="peca-fav" data-favorito="${p.id}" aria-pressed="${fav}" aria-label="${fav ? 'Tirar dos favoritos' : 'Salvar nos favoritos'}: ${escapar(p.nome)}">${icone('coracao')}</button>
+                <button type="button" class="peca-add miuda" data-comprar="${p.id}" ${esgotado ? 'disabled' : ''}>${esgotado ? 'Esgotado' : `${icone('sacola')} Adicionar à sacola`}</button>
+            </div>
+            <div class="peca-info">
+                <span class="miuda">${escapar(colecao(p))}</span>
                 <h3><a href="${link}">${escapar(p.nome)}</a></h3>
-                <p class="produto-desc">${escapar(p.descricao)}</p>
-                <p class="preco">${real(p.preco)}</p>
+                <p>${real(p.preco)}</p>
                 <p class="parcelas">${parcelas(p.preco)}</p>
-                <button type="button" class="botao ${esgotado ? 'botao-contorno' : 'botao-escuro'} botao-pequeno" data-comprar="${p.id}" ${esgotado ? 'disabled' : ''}>
-                    ${esgotado ? 'Esgotado' : `${icone('sacola')} Adicionar à sacola`}
-                </button>
             </div>
         </article>`;
     }
@@ -311,7 +313,7 @@
             document.querySelectorAll(`[data-favorito="${CSS.escape(fav.dataset.favorito)}"]`).forEach(b => {
                 b.setAttribute('aria-pressed', agora);
                 const nome = produto(fav.dataset.favorito)?.nome || '';
-                if (b.classList.contains('coracao')) b.setAttribute('aria-label', `${agora ? 'Tirar dos favoritos' : 'Salvar nos favoritos'}: ${nome}`);
+                if (b.classList.contains('peca-fav')) b.setAttribute('aria-label', `${agora ? 'Tirar dos favoritos' : 'Salvar nos favoritos'}: ${nome}`);
                 b.classList.remove('pulsar'); void b.offsetWidth; b.classList.add('pulsar');
             });
             aviso(agora ? 'Salvo nos favoritos' : 'Removido dos favoritos', agora ? { icone: 'coracao', acao: 'Ver favoritos', link: RAIZ + 'favoritos.html' } : { icone: 'coracao' });
@@ -336,61 +338,73 @@
     const ORDEM = ['colares', 'brincos', 'aneis', 'relogios', 'braceletes'];
     const urlColecao = (cat, linha) => `${RAIZ}colecao.html?categoria=${cat}${linha ? '&linha=' + linha : ''}`;
 
+    const ANUNCIOS = [
+        `Frete grátis em compras acima de ${real(FRETE_GRATIS_ACIMA)}`,
+        'Embalagem de presente em todas as compras',
+        'Até 10x sem juros · 5% de desconto no Pix',
+        'Loja de demonstração: nenhuma compra é real',
+    ];
+    const capaColecao = (c, l) => produtos().find(p => p.categoria === c && p.linha === l && p.estoque > 0) || produtos().find(p => p.categoria === c && p.linha === l);
+
     function montarTopo() {
         const lugar = document.getElementById('topo');
         if (!lugar) return;
         const atual = new URLSearchParams(location.search).get('categoria');
+        const conta = ehAdmin() ? ['admin/index.html', 'Painel administrativo', 'painel'] : usuarioAtual() ? ['conta.html', 'Minha conta', 'usuario'] : ['entrar.html', 'Entrar', 'usuario'];
         lugar.outerHTML = `
         <a class="pular" href="#conteudo">Pular para o conteúdo</a>
-        <div class="faixa-topo">Frete grátis acima de <strong>${real(FRETE_GRATIS_ACIMA)}</strong> · até 10x sem juros · 5% de desconto no Pix</div>
-        ${localStorage.getItem(CHAVES.aviso) ? '' : `
-        <div class="aviso-demo" id="avisoDemo"><div class="container">
-            ${icone('joia')}<p><strong>Loja de demonstração.</strong> Nenhuma compra é real: a sacola, a conta e os pedidos ficam salvos só neste navegador.</p>
-            <button type="button" aria-label="Fechar aviso">${icone('fechar')}</button>
-        </div></div>`}
-        <header class="topo">
-            <div class="container">
-                <button type="button" class="botao-icone botao-menu" id="abrirMenu" aria-label="Abrir menu" aria-expanded="false" aria-controls="gavetaMenu">${icone('menu')}</button>
-                <a class="logo" href="${RAIZ}index.html"><img src="${RAIZ}imagens/logo.webp" alt="Éclat Joias" width="424" height="271"></a>
-                <nav class="menu" aria-label="Categorias">
-                    ${ORDEM.map(c => `
-                    <div class="menu-item ${atual === c ? 'ativo' : ''}">
-                        <a href="${urlColecao(c)}">${CAT[c].nome}</a>
-                        <div class="submenu">
-                            <a href="${urlColecao(c)}">Ver todos<small>${CAT[c].nome} das duas coleções</small></a>
-                            <a href="${urlColecao(c, 'prata')}">${CAT[c].prata.nome}<small>Prata</small></a>
-                            <a href="${urlColecao(c, 'dourado')}">${CAT[c].dourado.nome}<small>Dourado</small></a>
-                        </div>
-                    </div>`).join('')}
-                    <div class="menu-item"><a href="${RAIZ}sobre.html">Nossa história</a></div>
-                </nav>
-                <form class="busca-topo" role="search" action="${RAIZ}colecao.html">
+        <div class="anuncio"><p class="miuda" id="anuncio">${ANUNCIOS[0]}</p></div>
+        <header class="cabecalho" id="cabecalho">
+            <div class="envolve cabecalho-topo">
+                <div class="cab-esq">
+                    <button type="button" class="icone-topo botao-menu" id="abrirMenu" aria-label="Abrir menu" aria-expanded="false" aria-controls="gavetaMenu">${icone('menu')}</button>
+                    <button type="button" class="icone-topo" id="abrirBusca" aria-label="Buscar" aria-expanded="false" aria-controls="painelBusca">${icone('busca')}</button>
+                    <a class="atendimento miuda" href="${RAIZ}sobre.html">${icone('usuario')} Atendimento</a>
+                </div>
+                <a class="marca" href="${RAIZ}index.html"><img src="${RAIZ}imagens/logo.webp" alt="Éclat Joias" width="424" height="271"></a>
+                <div class="cab-dir">
+                    <a class="icone-topo" href="${RAIZ}${conta[0]}" aria-label="${conta[1]}">${icone(conta[2])}</a>
+                    <a class="icone-topo" href="${RAIZ}favoritos.html" aria-label="Favoritos">${icone('coracao')}<span class="bolinha" data-contador="favoritos"></span></a>
+                    <button type="button" class="icone-topo" id="abrirSacola" aria-label="Sacola" aria-controls="gavetaSacola">${icone('sacola')}<span class="bolinha" data-contador="sacola"></span></button>
+                </div>
+            </div>
+            <nav class="navegacao miuda" aria-label="Categorias">
+                ${ORDEM.map(c => `
+                <div class="nav-item ${atual === c ? 'ativo' : ''}"><a href="${urlColecao(c)}">${CAT[c].nome}</a>
+                    <div class="mega"><div class="envolve mega-grade">
+                        <div class="mega-lista"><h3>${CAT[c].nome}</h3>
+                            <a href="${urlColecao(c)}">Ver todos</a><a href="${urlColecao(c, 'dourado')}">Coleção ${CAT[c].dourado.nome}</a><a href="${urlColecao(c, 'prata')}">Coleção ${CAT[c].prata.nome}</a></div>
+                        ${['dourado', 'prata'].map(l => { const p = capaColecao(c, l); return `
+                        <a class="mega-card" href="${urlColecao(c, l)}"><div class="foto">${p ? `<img src="${img(p.img)}" alt="" loading="lazy">` : ''}</div>
+                            <div><span class="miuda dourada">${l === 'dourado' ? 'Ouro 18k' : 'Prata 925'}</span><h4>${CAT[c][l].nome}</h4><p>${escapar(CAT[c][l].descricao)}</p><span class="link-sublinhado">Descobrir</span></div></a>`; }).join('')}
+                    </div></div>
+                </div>`).join('')}
+                <div class="nav-item"><a href="${RAIZ}sobre.html">Nossa história</a></div>
+            </nav>
+            <div class="busca-painel" id="painelBusca" hidden>
+                <form class="envolve" role="search" action="${RAIZ}colecao.html">
                     ${icone('busca')}
                     <label class="sr-only" for="buscaTopo">Buscar joias</label>
-                    <input id="buscaTopo" name="busca" type="search" placeholder="Buscar joias" autocomplete="off">
+                    <input id="buscaTopo" name="busca" type="search" placeholder="O que você procura? Pérola, ouro, safira…" autocomplete="off">
+                    <button type="button" class="icone-topo" id="fecharBusca" aria-label="Fechar busca">${icone('fechar')}</button>
                 </form>
-                <div class="acoes-topo">
-                    <a class="botao-icone" href="${RAIZ}favoritos.html" aria-label="Favoritos">${icone('coracao')}<span class="contador" data-contador="favoritos"></span></a>
-                    <a class="botao-icone" href="${RAIZ}${ehAdmin() ? 'admin/index.html' : usuarioAtual() ? 'conta.html' : 'entrar.html'}" aria-label="${ehAdmin() ? 'Painel administrativo' : usuarioAtual() ? 'Minha conta' : 'Entrar'}">${icone(ehAdmin() ? 'painel' : 'usuario')}</a>
-                    <button type="button" class="botao-icone" id="abrirSacola" aria-label="Sacola" aria-controls="gavetaSacola">${icone('sacola')}<span class="contador" data-contador="sacola"></span></button>
-                </div>
             </div>
         </header>
         <div class="gaveta gaveta-esquerda" id="gavetaMenu" aria-hidden="true">
             <div class="gaveta-fundo" data-fechar-gaveta></div>
             <div class="gaveta-painel" role="dialog" aria-modal="true" aria-label="Menu">
-                <div class="gaveta-cabeca"><img src="${RAIZ}imagens/logo.webp" alt="Éclat Joias" style="height:36px;width:auto"><button type="button" class="botao-icone" data-fechar-gaveta aria-label="Fechar menu">${icone('fechar')}</button></div>
+                <div class="gaveta-cabeca"><img src="${RAIZ}imagens/logo.webp" alt="Éclat Joias" style="height:38px;width:auto"><button type="button" class="botao-icone" data-fechar-gaveta aria-label="Fechar menu">${icone('fechar')}</button></div>
                 <div class="gaveta-corpo menu-celular">
                     <form role="search" action="${RAIZ}colecao.html"><label class="sr-only" for="buscaCel">Buscar joias</label><input id="buscaCel" name="busca" type="search" placeholder="Buscar joias"></form>
                     ${ORDEM.map(c => `
                     <details><summary>${CAT[c].nome}${icone('baixo')}</summary>
                         <a href="${urlColecao(c)}">Ver todos</a>
-                        <a href="${urlColecao(c, 'prata')}">${CAT[c].prata.nome} · Prata</a>
-                        <a href="${urlColecao(c, 'dourado')}">${CAT[c].dourado.nome} · Dourado</a>
+                        <a href="${urlColecao(c, 'dourado')}">Coleção ${CAT[c].dourado.nome} · ouro</a>
+                        <a href="${urlColecao(c, 'prata')}">Coleção ${CAT[c].prata.nome} · prata</a>
                     </details>`).join('')}
                     <a href="${RAIZ}sobre.html">Nossa história</a>
                     <a href="${RAIZ}favoritos.html">Favoritos</a>
-                    <a href="${RAIZ}${usuarioAtual() ? 'conta.html' : 'entrar.html'}">${usuarioAtual() ? 'Minha conta' : 'Entrar ou criar conta'}</a>
+                    <a href="${RAIZ}${conta[0]}">${usuarioAtual() || ehAdmin() ? conta[1] : 'Entrar ou criar conta'}</a>
                 </div>
             </div>
         </div>
@@ -403,10 +417,29 @@
             </div>
         </div>`;
 
-        const demo = document.getElementById('avisoDemo');
-        if (demo) demo.querySelector('button').addEventListener('click', () => { localStorage.setItem(CHAVES.aviso, '1'); demo.remove(); });
         document.getElementById('abrirMenu').addEventListener('click', () => abrirGaveta('gavetaMenu', document.getElementById('abrirMenu')));
         document.getElementById('abrirSacola').addEventListener('click', () => abrirSacola());
+        // busca que abre embaixo do menu
+        const busca = document.getElementById('painelBusca');
+        const botaoBusca = document.getElementById('abrirBusca');
+        const alternarBusca = (abrir) => {
+            busca.hidden = !abrir;
+            botaoBusca.setAttribute('aria-expanded', abrir);
+            if (abrir) document.getElementById('buscaTopo').focus(); else botaoBusca.focus();
+        };
+        botaoBusca.addEventListener('click', () => alternarBusca(busca.hidden));
+        document.getElementById('fecharBusca').addEventListener('click', () => alternarBusca(false));
+        busca.addEventListener('keydown', (e) => { if (e.key === 'Escape') alternarBusca(false); });
+        // cabeçalho encolhe ao rolar
+        const cab = document.getElementById('cabecalho');
+        addEventListener('scroll', () => cab.classList.toggle('rolou', scrollY > 40), { passive: true });
+        // anúncio que alterna
+        let n = 0;
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => {
+            const el = document.getElementById('anuncio');
+            el.classList.add('saindo');
+            setTimeout(() => { n = (n + 1) % ANUNCIOS.length; el.textContent = ANUNCIOS[n]; el.classList.remove('saindo'); }, 600);
+        }, 4500);
         const termo = new URLSearchParams(location.search).get('busca');
         if (termo) document.querySelectorAll('input[name="busca"]').forEach(i => { i.value = termo; });
         atualizarContadores();
@@ -436,7 +469,7 @@
         const itens = sacola();
         const pe = document.getElementById('miniSacolaPe');
         if (!itens.length) {
-            corpo.innerHTML = `<div class="vazio" style="border:0;background:none">${icone('sacola')}<h2>Sua sacola está vazia</h2><p>Que tal começar pelos mais desejados?</p><a class="botao botao-escuro" href="${RAIZ}colecao.html?categoria=aneis">Ver anéis</a></div>`;
+            corpo.innerHTML = `<div class="vazio" style="border:0;background:none;padding:60px 0">${icone('sacola')}<h2>Sua sacola está vazia</h2><p>Comece pelas novidades da coleção Riviera.</p><a class="botao botao-escuro" href="${RAIZ}colecao.html?categoria=aneis&linha=dourado">Descobrir</a></div>`;
             pe.innerHTML = '';
             return;
         }
@@ -478,43 +511,34 @@
         const lugar = document.getElementById('rodape');
         if (!lugar) return;
         lugar.outerHTML = `
-        <footer class="rodape">
-            <div class="container">
-                <div class="rodape-grade">
+        <footer class="rodape-novo">
+            <div class="envolve">
+                <div class="grade">
                     <div>
-                        <img class="logo-rodape" src="${RAIZ}imagens/logo.webp" alt="Éclat Joias" width="424" height="271">
-                        <p>Elegância, tradição e significado. Joias em prata 925 e ouro 18k inspiradas na Riviera Francesa.</p>
-                        <div class="redes">
+                        <img src="${RAIZ}imagens/logo.webp" alt="Éclat Joias" width="424" height="271">
+                        <p>Elegância, tradição e significado. Joias em ouro 18k e prata 925 inspiradas na Riviera Francesa.</p>
+                        <div class="redes-novo">
                             <a href="${LINKS_REDES.instagram}" target="_blank" rel="noopener" aria-label="Instagram da Éclat">${icone('instagram')}</a>
                             <a href="${LINKS_REDES.facebook}" target="_blank" rel="noopener" aria-label="Facebook da Éclat">${icone('facebook')}</a>
                             <a href="${LINKS_REDES.pinterest}" target="_blank" rel="noopener" aria-label="Pinterest da Éclat">${icone('pinterest')}</a>
                         </div>
                     </div>
-                    <div>
-                        <h3>Joias</h3>
-                        <ul>${ORDEM.map(c => `<li><a href="${urlColecao(c)}">${CAT[c].nome}</a></li>`).join('')}</ul>
-                    </div>
-                    <div>
-                        <h3>Éclat</h3>
-                        <ul>
-                            <li><a href="${RAIZ}sobre.html">Nossa história</a></li>
-                            <li><a href="${RAIZ}favoritos.html">Favoritos</a></li>
-                            <li><a href="${RAIZ}conta.html">Minha conta</a></li>
-                            <li><a href="${RAIZ}entrar.html?admin=1">Acesso administrador</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>Atendimento</h3>
-                        <ul>
-                            <li>Segunda a sábado, 9h às 18h</li>
-                            <li>contato@eclatjoias.com.br</li>
-                            <li>Trocas em até 30 dias</li>
-                        </ul>
-                    </div>
+                    <div><h3>Joias</h3><ul>${ORDEM.map(c => `<li><a href="${urlColecao(c)}">${CAT[c].nome}</a></li>`).join('')}</ul></div>
+                    <div><h3>A Éclat</h3><ul>
+                        <li><a href="${RAIZ}sobre.html">Nossa história</a></li>
+                        <li><a href="${RAIZ}favoritos.html">Favoritos</a></li>
+                        <li><a href="${RAIZ}conta.html">Minha conta</a></li>
+                        <li><a href="${RAIZ}entrar.html?admin=1">Acesso administrador</a></li>
+                    </ul></div>
+                    <div><h3>Atendimento</h3><ul>
+                        <li>Segunda a sábado, 9h às 18h</li>
+                        <li>contato@eclatjoias.com.br</li>
+                        <li>Trocas em até 30 dias</li>
+                    </ul><div class="pagamentos"><span>Pix</span><span>Visa</span><span>Master</span><span>Elo</span><span>Boleto</span></div></div>
                 </div>
-                <div class="rodape-fim">
+                <div class="rodape-base">
                     <span>© ${new Date().getFullYear()} Éclat Joias · loja fictícia, projeto de portfólio</span>
-                    <span class="credito">Desenvolvido por <strong>Beatriz Oliveira</strong> ·
+                    <span>Desenvolvido por <strong>Beatriz Oliveira</strong> ·
                         <a href="https://github.com/biabruna19" target="_blank" rel="noopener">GitHub</a> ·
                         <a href="https://www.linkedin.com/in/beatriz-oliveira-759867294/" target="_blank" rel="noopener">LinkedIn</a></span>
                 </div>
@@ -537,7 +561,7 @@
         favoritos, ehFavorito, alternarFavorito,
         usuarios, usuarioAtual, sessao, ehAdmin, entrar, cadastrar, atualizarUsuario, sair,
         pedidos, salvarPedidos, criarPedido, mudarStatus, restaurarDemo,
-        aviso, cartao, abrirSacola, aoMudar: (fn) => ouvintes.push(fn),
+        aviso, cartao, abrirSacola, FOTO_LOOK, aoMudar: (fn) => ouvintes.push(fn),
     };
 
     document.addEventListener('DOMContentLoaded', () => {
