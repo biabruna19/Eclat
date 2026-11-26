@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-raiz="../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel · Éclat Joias</title>
+    <meta name="description" content="Painel administrativo da Éclat Joias.">
+    <meta name="author" content="Beatriz Oliveira">
+    <meta name="theme-color" content="#fff8f1">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/loja.css?v=202611261543">
+    <link rel="stylesheet" href="../css/admin.css?v=202611261543">
+</head>
+<body class="admin" data-admin="painel">
+<div class="admin-layout">
+<div id="lateral"></div>
+<div>
+<header class="admin-topo" id="adminTopo" data-titulo="Painel"></header>
+<main id="conteudo" class="admin-conteudo">
+<div class="cartoes-resumo" id="resumo"></div>
+<div class="duas-colunas">
+    <section class="bloco"><h2>Últimos pedidos <a class="link" href="pedidos.html">Ver todos</a></h2><div class="tabela-envolve" style="border:0"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Total</th><th>Status</th></tr></thead><tbody id="ultimos"></tbody></table></div></section>
+    <div style="display:grid;gap:22px">
+        <section class="bloco"><h2>Vendas por categoria</h2><div class="barras" id="barras"></div></section>
+        <section class="bloco"><h2>Estoque baixo</h2><div id="baixo"></div></section>
+    </div>
+</div>
+</main>
+</div>
+</div>
+<script src="../js/catalogo.js?v=202611261543"></script>
+<script src="../js/loja.js?v=202611261543"></script>
+<script src="../js/admin.js?v=202611261543"></script>
+<script src="../js/paginas/admin-painel.js?v=202611261543"></script>
+</body>
+</html>

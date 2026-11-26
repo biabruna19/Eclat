@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-raiz="./">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha conta · Éclat Joias</title>
+    <meta name="description" content="Seus pedidos e dados na Éclat Joias.">
+    <meta name="author" content="Beatriz Oliveira">
+    <meta name="theme-color" content="#fff8f1">
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/loja.css?v=202611261543">
+</head>
+<body>
+<div id="topo"></div>
+<main id="conteudo" class="container">
+    <h1 class="titulo-pagina" id="ola">Minha conta</h1>
+    <div class="conta">
+        <aside class="cartao perfil">
+            <div class="avatar" id="avatar" aria-hidden="true"></div>
+            <h2 id="nomePerfil"></h2>
+            <p id="emailPerfil"></p>
+            <nav class="menu-conta" role="tablist" aria-label="Minha conta">
+                <button type="button" role="tab" data-aba="pedidos" aria-selected="true"><span data-icone="pacote"></span>Meus pedidos</button>
+                <button type="button" role="tab" data-aba="dados" aria-selected="false"><span data-icone="usuario"></span>Meus dados</button>
+                <a href="favoritos.html"><span data-icone="coracao"></span>Favoritos</a>
+                <button type="button" id="sair"><span data-icone="sair"></span>Sair</button>
+            </nav>
+        </aside>
+        <section id="painel" role="tabpanel"></section>
+    </div>
+</main>
+<div id="rodape"></div>
+<script src="./js/catalogo.js?v=202611261543"></script>
+<script src="./js/loja.js?v=202611261543"></script>
+<script src="./js/paginas/conta.js?v=202611261543"></script>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-raiz="./">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar · Éclat Joias</title>
+    <meta name="description" content="Entre ou crie sua conta na Éclat Joias.">
+    <meta name="author" content="Beatriz Oliveira">
+    <meta name="theme-color" content="#fff8f1">
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/loja.css?v=202611261543">
+</head>
+<body>
+<div id="topo"></div>
+<main id="conteudo" class="entrar">
+    <div class="entrar-foto" aria-hidden="true"><p>Joias que contam a sua história.</p></div>
+    <div class="entrar-form">
+        <div>
+            <h1 id="tituloEntrar">Bem-vinda de volta</h1>
+            <p class="ajuda" id="subEntrar">Entre para acompanhar seus pedidos e favoritos.</p>
+            <div class="troca" role="tablist" aria-label="Entrar ou criar conta">
+                <button type="button" role="tab" id="abaEntrar" aria-selected="true" aria-controls="formEntrar">Entrar</button>
+                <button type="button" role="tab" id="abaCriar" aria-selected="false" aria-controls="formCriar">Criar conta</button>
+            </div>
+
+            <form id="formEntrar" class="form-pilha" role="tabpanel" aria-labelledby="abaEntrar" novalidate>
+                <div class="campo"><label for="email">E-mail</label><input id="email" type="email" autocomplete="email" required><span class="erro" id="erro-email"></span></div>
+                <div class="campo"><label for="senha">Senha</label><input id="senha" type="password" autocomplete="current-password" required><span class="erro" id="erro-senha"></span></div>
+                <button type="submit" class="botao botao-escuro botao-bloco">Entrar</button>
+            </form>
+
+            <form id="formCriar" class="form-pilha" role="tabpanel" aria-labelledby="abaCriar" novalidate hidden>
+                <div class="campo"><label for="nome">Nome completo</label><input id="nome" autocomplete="name" required><span class="erro" id="erro-nome"></span></div>
+                <div class="campo"><label for="emailNovo">E-mail</label><input id="emailNovo" type="email" autocomplete="email" required><span class="erro" id="erro-emailNovo"></span></div>
+                <div class="campo"><label for="telefone">Celular <span class="ajuda">(opcional)</span></label><input id="telefone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="(11) 91234-5678"></div>
+                <div class="campo"><label for="senhaNova">Senha</label><input id="senhaNova" type="password" autocomplete="new-password" minlength="6" required><span class="ajuda">Pelo menos 6 caracteres.</span><span class="erro" id="erro-senhaNova"></span></div>
+                <button type="submit" class="botao botao-escuro botao-bloco">Criar conta</button>
+            </form>
+
+            <div class="demo-acesso" id="demoAcesso"></div>
+        </div>
+    </div>
+</main>
+<div id="rodape"></div>
+<script src="./js/catalogo.js?v=202611261543"></script>
+<script src="./js/loja.js?v=202611261543"></script>
+<script src="./js/paginas/entrar.js?v=202611261543"></script>
+
+</body>
+</html>
