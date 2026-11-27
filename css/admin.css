@@ -34,7 +34,7 @@ body.admin { background: #fbf4ea; }
 .bloco h2 a { font-family: var(--texto); font-size: .85rem; font-weight: 500; }
 .barras { display: grid; gap: 12px; }
 .barra-linha { display: grid; grid-template-columns: 90px 1fr 80px; gap: 12px; align-items: center; font-size: .88rem; }
-.barra-linha .trilho { height: 10px; border-radius: 5px; background: var(--creme); overflow: hidden; }
+.barra-linha .trilho { display: block; overflow: hidden; grid-auto-flow: initial; padding: 0; height: 10px; border-radius: 5px; background: var(--creme); overflow: hidden; }
 .barra-linha .trilho i { display: block; height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--ouro), #a77c43); }
 .barra-linha b { text-align: right; font-weight: 600; }
 .tabela-envolve { overflow-x: auto; background: #fff; border: 1px solid var(--linha); border-radius: var(--raio); }

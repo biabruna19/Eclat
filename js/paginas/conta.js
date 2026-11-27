@@ -36,7 +36,8 @@
                 </div>
                 <div class="pedido-corpo">
                     <div class="pedido-itens">${p.itens.map(i => `<a href="produto.html?id=${i.id}" title="${escapar(i.nome)} (${i.qtd})"><img src="${Loja.img(i.img)}" alt="${escapar(i.nome)}"></a>`).join('')}</div>
-                    <p class="ajuda" style="margin-top:10px">${p.itens.map(i => `${i.qtd}× ${escapar(i.nome)}`).join(' · ')}${p.endereco ? ` — entrega em ${escapar(p.endereco.cidade)}/${escapar(p.endereco.uf)}` : ''}</p>
+                    <p class="ajuda" style="margin-top:10px">${p.itens.map(i => `${i.qtd}× ${escapar(i.nome)}${Loja.opcoesTexto(i) ? ` (${escapar(Loja.opcoesTexto(i))})` : ''}`).join(' · ')}${p.endereco ? ` — entrega em ${escapar(p.endereco.cidade)}/${escapar(p.endereco.uf)}` : ''}</p>
+                    ${p.presente ? `<p class="ajuda" style="display:flex;gap:8px;align-items:center">${icone('presente')} Para presente${p.presente.para ? ` · para ${escapar(p.presente.para)}` : ''}</p>` : ''}
                     ${linhaTempo(p)}
                 </div>
             </article>`).join('');

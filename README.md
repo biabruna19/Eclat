@@ -14,18 +14,26 @@ E-commerce de uma joalheria fictícia, com colares, brincos, anéis, relógios e
 
 A loja funciona do começo ao fim: dá para escolher as joias, montar a sacola, criar uma conta, finalizar a compra e acompanhar o pedido. Há também um painel administrativo para cuidar do estoque e dos pedidos.
 
+## Visual
+
+O layout segue o estilo das joalherias de luxo: logo no centro, menu em letras pequenas com um menu grande que mostra as coleções, muito espaço vazio, botões retos e traços finos em dourado. As fotos dos produtos foram padronizadas (todas as joias centralizadas e do mesmo tamanho), e ao passar o mouse aparece uma segunda foto com a joia em uso.
+
 ## O que dá para fazer
 
 **Na loja**
-- Navegar pelas coleções, filtrar por prata ou dourado, ordenar por preço e esconder o que está esgotado.
+- Navegar pelas coleções, filtrar por ouro ou prata, ordenar por preço e esconder o que está esgotado.
+- Montar um conjunto (colar, brinco e anel da mesma linha) com 10% de desconto na página inicial.
 - Buscar joias pelo nome, material ou pedra. A busca funciona com ou sem acento.
-- Ver cada joia na sua página, com zoom na foto, parcelamento, preço no Pix, aviso de "últimas unidades" e cálculo de frete pelo CEP.
+- Ver cada joia na sua página, com galeria (a peça e a foto com modelo), zoom, parcelamento, preço no Pix, aviso de "últimas unidades" e cálculo de frete pelo CEP.
+- Escolher o tamanho do anel (aro 12 a 24), com um guia e uma calculadora: você mede um anel que já tem e o site diz o seu aro.
+- Personalizar anéis e braceletes com gravação de até 12 caracteres, em letra clássica ou cursiva, vendo a prévia antes de comprar.
 - Salvar favoritos e montar a sacola. A sacola lateral abre a cada joia adicionada e mostra quanto falta para o frete grátis.
 - Usar cupons de desconto (na demonstração: `ECLAT10`, `BEMVINDA15` e `FRETEGRATIS`).
 - Finalizar a compra:
   - o endereço é preenchido pelo CEP;
   - escolha entre entrega padrão ou expressa;
   - pagamento por Pix, cartão (com validação do número) ou boleto.
+  - embalagem de presente com cartão e mensagem, com a opção de esconder os preços.
 - Criar conta, editar os dados e acompanhar os pedidos com a linha do tempo de cada um.
 
 **No painel administrativo**
@@ -83,6 +91,7 @@ entrar.html          login e cadastro
 conta.html           pedidos e dados da cliente
 favoritos.html       favoritos
 sobre.html           nossa história
+servicos.html        gravação, presente, guia de tamanhos e atendimento
 admin/               painel, estoque e pedidos
 js/catalogo.js       os 118 produtos e as 10 coleções
 js/loja.js           sacola, favoritos, contas, pedidos, topo e rodapé
