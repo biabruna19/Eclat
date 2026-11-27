@@ -35,18 +35,19 @@
                         <div>
                             <span class="produto-colecao">${escapar(Loja.colecao(p))}</span>
                             <h3><a href="produto.html?id=${p.id}">${escapar(p.nome)}</a></h3>
-                            <p class="parcelas">${real(p.preco)} cada${p.estoque <= 3 ? ` · só ${p.estoque} em estoque` : ''}</p>
+                            ${Loja.opcoesTexto(i) ? `<p class="opcoes-item">${escapar(Loja.opcoesTexto(i))}</p>` : ''}
+                            <p class="parcelas">${real(Loja.precoItem(i))} cada${p.estoque <= 3 ? ` · só ${p.estoque} em estoque` : ''}</p>
                             <div class="acoes-item">
                                 <div class="quantidade" role="group" aria-label="Quantidade de ${escapar(p.nome)}">
-                                    <button type="button" data-menos="${p.id}" aria-label="Diminuir">${icone('menos')}</button>
+                                    <button type="button" data-menos="${i.chave}" aria-label="Diminuir">${icone('menos')}</button>
                                     <output>${i.qtd}</output>
-                                    <button type="button" data-mais="${p.id}" aria-label="Aumentar" ${i.qtd >= p.estoque ? 'disabled' : ''}>${icone('mais')}</button>
+                                    <button type="button" data-mais="${i.chave}" aria-label="Aumentar" ${Loja.naSacola(p.id) >= p.estoque ? 'disabled' : ''}>${icone('mais')}</button>
                                 </div>
-                                <button type="button" class="botao-remover" data-remover="${p.id}">${icone('lixeira')} Remover</button>
-                                <button type="button" class="botao-remover" data-mover="${p.id}">${icone('coracao')} Mover para favoritos</button>
+                                <button type="button" class="botao-remover" data-remover="${i.chave}">${icone('lixeira')} Remover</button>
+                                <button type="button" class="botao-remover" data-mover="${i.chave}">${icone('coracao')} Mover para favoritos</button>
                             </div>
                         </div>
-                        <div class="item-preco">${real(p.preco * i.qtd)}${i.qtd > 1 ? `<small>${i.qtd} × ${real(p.preco)}</small>` : ''}</div>
+                        <div class="item-preco">${real(Loja.precoItem(i) * i.qtd)}${i.qtd > 1 ? `<small>${i.qtd} × ${real(Loja.precoItem(i))}</small>` : ''}</div>
                     </div>`;
                 }).join('')}
                 <a class="link" href="colecao.html" style="display:inline-block;margin-top:18px">Continuar comprando</a>
@@ -98,17 +99,18 @@
         const alvo = e.target.closest('[data-menos],[data-mais],[data-remover],[data-mover]');
         if (!alvo) return;
         const { menos, mais, remover, mover } = alvo.dataset;
-        const item = (id) => Loja.sacola().find(i => i.id === id);
-        if (menos || mais) focar = menos ? `[data-menos="${menos}"]` : `[data-mais="${mais}"]`;
+        const item = (k) => Loja.sacola().find(i => i.chave === k);
+        if (menos || mais) focar = menos ? `[data-menos="${CSS.escape(menos)}"]` : `[data-mais="${CSS.escape(mais)}"]`;
         if (menos) Loja.mudarQtd(menos, item(menos).qtd - 1);
         if (mais) Loja.mudarQtd(mais, item(mais).qtd + 1);
         if (remover) {
             const antes = item(remover);
             Loja.remover(remover);
-            Loja.aviso('Joia removida da sacola.', { icone: 'lixeira', acao: 'Desfazer', aoAcionar: () => Loja.adicionar(remover, antes.qtd) });
+            Loja.aviso('Joia removida da sacola.', { icone: 'lixeira', acao: 'Desfazer', aoAcionar: () => Loja.restaurarItem(antes) });
         }
         if (mover) {
-            if (!Loja.ehFavorito(mover)) Loja.alternarFavorito(mover);
+            const id = item(mover).id;
+            if (!Loja.ehFavorito(id)) Loja.alternarFavorito(id);
             Loja.remover(mover);
             Loja.aviso('Movida para os favoritos.', { icone: 'coracao', acao: 'Ver', link: 'favoritos.html' });
         }

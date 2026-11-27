@@ -4,6 +4,10 @@
     const id = new URLSearchParams(location.search).get('id');
     const $ = (s) => document.getElementById(s);
     let qtd = 1;
+    // escolhas da pessoa (sobrevivem quando a página é redesenhada)
+    let tamanho = null;
+    const gravacao = { ativa: false, texto: '', fonte: 'classica' };
+    const LIMITE_GRAVACAO = 12;
 
     const MATERIAL = {
         prata: { nome: 'Prata 925', cuidados: 'Guarde separada das outras peças, longe da umidade. Para limpar, use flanela macia; evite perfume e cloro.' },
@@ -37,10 +41,34 @@
                 <span class="sobretitulo">${c.singular} · Coleção ${escapar(col.nome)}</span>
                 <h1>${escapar(p.nome)}</h1>
                 <p class="descricao">${escapar(p.descricao)}.</p>
-                <p class="preco-grande">${real(p.preco)}</p>
-                <p class="parcelas">${Loja.parcelas(p.preco)}</p>
-                <p class="preco-pix">${real(p.preco * (1 - Loja.DESCONTO_PIX))} no Pix (5% de desconto)</p>
+                <div id="precos"></div>
                 <p class="disponibilidade ${disp[0]}">${disp[1]}</p>
+                ${Loja.precisaTamanho(p) ? `
+                <div class="escolha" id="tamanho">
+                    <div class="escolha-topo"><span class="rotulo" id="rotuloAro">Tamanho (aro)</span><button type="button" class="link" id="abrirGuia">Descobrir meu tamanho</button></div>
+                    <div class="aros" role="radiogroup" aria-labelledby="rotuloAro">
+                        ${Array.from({ length: Loja.ARO.max - Loja.ARO.min + 1 }, (_, i) => Loja.ARO.min + i).map(a => `<button type="button" role="radio" data-aro="${a}" aria-checked="${a === tamanho}">${a}</button>`).join('')}
+                    </div>
+                    <p class="erro" id="erroAro"></p>
+                </div>` : ''}
+                ${Loja.aceitaGravacao(p) ? `
+                <div class="escolha gravacao">
+                    <label class="marcar"><input type="checkbox" id="querGravar" ${gravacao.ativa ? 'checked' : ''}> Adicionar gravação personalizada <span class="dourada">+ ${real(Loja.PRECO_GRAVACAO)}</span></label>
+                    <div id="blocoGravacao" ${gravacao.ativa ? '' : 'hidden'}>
+                        <div class="previa-gravacao fonte-${gravacao.fonte}" aria-hidden="true"><span id="textoPrevia">${escapar(gravacao.texto) || 'Seu texto'}</span></div>
+                        <div class="campo">
+                            <label for="textoGravacao">Texto (até ${LIMITE_GRAVACAO} caracteres)</label>
+                            <input id="textoGravacao" maxlength="${LIMITE_GRAVACAO}" value="${escapar(gravacao.texto)}" placeholder="Ex.: B & L, 12.06.25" autocomplete="off">
+                            <span class="ajuda"><span id="contaGravacao">${gravacao.texto.length}</span>/${LIMITE_GRAVACAO} · letras, números, & e pontos</span>
+                            <span class="erro" id="erroGravacao"></span>
+                        </div>
+                        <div class="fontes" role="radiogroup" aria-label="Estilo da letra">
+                            <button type="button" role="radio" data-fonte="classica" aria-checked="${gravacao.fonte === 'classica'}"><span class="fonte-classica">Aa</span> Clássica</button>
+                            <button type="button" role="radio" data-fonte="cursiva" aria-checked="${gravacao.fonte === 'cursiva'}"><span class="fonte-cursiva">Aa</span> Cursiva</button>
+                        </div>
+                        <p class="ajuda">A gravação leva até 3 dias úteis a mais. Peças gravadas não podem ser trocadas.</p>
+                    </div>
+                </div>` : ''}
                 <div class="comprar">
                     <div class="quantidade" role="group" aria-label="Quantidade">
                         <button type="button" id="menos" aria-label="Diminuir quantidade" ${qtd <= 1 || p.estoque <= 0 ? 'disabled' : ''}>${icone('menos')}</button>
@@ -72,18 +100,67 @@
                         </ul>
                     </details>
                     <details><summary>Cuidados com a joia ${icone('mais')}</summary><p>${MATERIAL[p.linha].cuidados}</p></details>
+                    ${Loja.precisaTamanho(p) ? `<details><summary>Guia de tamanhos ${icone('mais')}</summary><p>Os anéis vão do aro 12 ao 24. Meça o diâmetro interno de um anel que sirva em você e veja o aro correspondente. <button type="button" class="link" data-abrir-guia>Abrir o guia</button></p></details>` : ''}
                     <details><summary>Garantia, trocas e embalagem ${icone('mais')}</summary><p>Todas as peças vão em embalagem de presente, com certificado de autenticidade e garantia de 1 ano contra defeitos de fabricação. Você pode trocar em até 30 dias.</p></details>
                 </div>
             </div>
-        </div>`;
+        </div>
+        ${Loja.precisaTamanho(p) ? `
+        <dialog class="janela-guia" id="guia" aria-labelledby="tituloGuia">
+            <div class="janela-guia-topo"><h2 id="tituloGuia">Descubra seu tamanho</h2><button type="button" class="botao-icone" id="fecharGuia" aria-label="Fechar">${icone('fechar')}</button></div>
+            ${Loja.guiaTamanhosHtml()}
+        </dialog>` : ''}`;
 
+        desenharPrecos(p);
         $('menos').addEventListener('click', () => { qtd--; desenhar(); });
         $('mais').addEventListener('click', () => { qtd++; desenhar(); });
         $('adicionar').addEventListener('click', () => {
-            const r = Loja.adicionar(p.id, qtd);
-            if (r.ok) { Loja.abrirSacola(p.id); if (r.limitado) Loja.aviso(`Adicionamos o máximo disponível (${r.qtd}).`, { icone: 'pacote' }); }
+            if (Loja.precisaTamanho(p) && !tamanho) {
+                $('erroAro').textContent = 'Escolha o tamanho do anel.';
+                $('tamanho').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                document.querySelector('[data-aro]').focus();
+                return;
+            }
+            if (gravacao.ativa && !textoValido()) return;
+            const opcoes = { tamanho, gravacao: gravacao.ativa ? { texto: gravacao.texto.trim(), fonte: gravacao.fonte } : null };
+            const r = Loja.adicionar(p.id, qtd, opcoes);
+            if (r.ok) { Loja.abrirSacola(r.chave); if (r.limitado) Loja.aviso(`Adicionamos o máximo disponível (${r.qtd}).`, { icone: 'pacote' }); }
             else if (r.motivo === 'limite') Loja.aviso(`Você já tem todas as ${r.max} unidades na sacola.`, { icone: 'pacote' });
         });
+
+        // tamanho do anel
+        document.querySelectorAll('[data-aro]').forEach(b => b.addEventListener('click', () => escolherAro(+b.dataset.aro)));
+        function escolherAro(a) {
+            tamanho = a;
+            document.querySelectorAll('[data-aro]').forEach(x => x.setAttribute('aria-checked', +x.dataset.aro === a));
+            $('erroAro').textContent = '';
+        }
+        const guia = $('guia');
+        if (guia) {
+            $('abrirGuia').addEventListener('click', () => guia.showModal());
+            $('fecharGuia').addEventListener('click', () => guia.close());
+            guia.addEventListener('click', (e) => { if (e.target === guia) guia.close(); });
+            Loja.iniciarGuia(guia, (a) => { escolherAro(a); guia.close(); Loja.aviso(`Aro ${a} selecionado.`); });
+            document.querySelectorAll('[data-abrir-guia]').forEach(b => b.addEventListener('click', () => guia.showModal()));
+        }
+
+        // gravação
+        const quer = $('querGravar');
+        if (quer) {
+            quer.addEventListener('change', () => { gravacao.ativa = quer.checked; $('blocoGravacao').hidden = !quer.checked; desenharPrecos(p); if (quer.checked) $('textoGravacao').focus(); });
+            $('textoGravacao').addEventListener('input', (e) => {
+                gravacao.texto = e.target.value;
+                $('textoPrevia').textContent = gravacao.texto || 'Seu texto';
+                $('contaGravacao').textContent = gravacao.texto.length;
+                $('erroGravacao').textContent = '';
+            });
+            document.querySelectorAll('[data-fonte]').forEach(b => b.addEventListener('click', () => {
+                gravacao.fonte = b.dataset.fonte;
+                document.querySelectorAll('[data-fonte]').forEach(x => x.setAttribute('aria-checked', x === b));
+                document.querySelector('.previa-gravacao').className = `previa-gravacao fonte-${gravacao.fonte}`;
+            }));
+        }
+        if (location.hash === '#tamanho' && $('tamanho')) setTimeout(() => $('tamanho').scrollIntoView({ block: 'center' }), 100);
         const cep = $('cep');
         cep.value = localStorage.getItem('eclat_cep') || '';
         cep.addEventListener('input', () => { cep.value = Loja.mascaraCep(cep.value); });
@@ -118,6 +195,22 @@
         $('relacionados').hidden = !rel.length;
         $('gradeRelacionados').innerHTML = rel.map(Loja.cartao).join('');
         $('verColecao').href = Loja.urlColecao(p.categoria, p.linha);
+    }
+
+    function textoValido() {
+        const t = gravacao.texto.trim();
+        const msg = !t ? 'Digite o texto da gravação ou desmarque a opção.' : !/^[\p{L}\p{N} &.'-]+$/u.test(t) ? 'Use só letras, números, espaço, & e pontos.' : '';
+        $('erroGravacao').textContent = msg;
+        if (msg) $('textoGravacao').focus();
+        return !msg;
+    }
+    function desenharPrecos(p) {
+        const preco = p.preco + (gravacao.ativa ? Loja.PRECO_GRAVACAO : 0);
+        $('precos').innerHTML = `
+            <p class="preco-grande">${real(preco)}</p>
+            ${gravacao.ativa ? `<p class="parcelas">Joia ${real(p.preco)} + gravação ${real(Loja.PRECO_GRAVACAO)}</p>` : ''}
+            <p class="parcelas">${Loja.parcelas(preco)}</p>
+            <p class="preco-pix">${real(preco * (1 - Loja.DESCONTO_PIX))} no Pix (5% de desconto)</p>`;
     }
 
     desenhar();

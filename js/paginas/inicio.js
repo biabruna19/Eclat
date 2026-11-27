@@ -66,7 +66,8 @@
     const conjunto = ['colares-dourado-lumiere', 'brincos-dourado-calisson', 'aneis-dourado-calme'].map(P).filter(Boolean);
     $('itensConjunto').innerHTML = conjunto.map(p => `
         <label class="item-conjunto"><input type="checkbox" checked value="${p.id}"><img src="${Loja.img(p.img)}" alt="">
-            <span><strong>${escapar(p.nome)}</strong><small>${CAT[p.categoria].singular} · Coleção ${escapar(Loja.colecao(p))}</small></span><span>${real(p.preco)}</span></label>`).join('');
+            <span><strong>${escapar(p.nome)}</strong><small>${CAT[p.categoria].singular} · Coleção ${escapar(Loja.colecao(p))}</small>
+                ${Loja.precisaTamanho(p) ? `<select class="aro-conjunto" id="aroConjunto" aria-label="Tamanho do anel ${escapar(p.nome)}"><option value="">Escolha o aro</option>${Array.from({ length: 13 }, (_, k) => 12 + k).map(a => `<option value="${a}">Aro ${a}</option>`).join('')}</select>` : ''}</span><span>${real(p.preco)}</span></label>`).join('');
     function totalConjunto() {
         const marcados = [...$('itensConjunto').querySelectorAll('input:checked')].map(i => P(i.value));
         const cheio = marcados.reduce((s, p) => s + p.preco, 0);
@@ -79,7 +80,13 @@
     $('itensConjunto').addEventListener('change', totalConjunto);
     $('levarConjunto').addEventListener('click', () => {
         const marcados = [...$('itensConjunto').querySelectorAll('input:checked')].map(i => i.value);
-        marcados.forEach(id => Loja.adicionar(id, 1));
+        const aro = $('aroConjunto') ? $('aroConjunto').value : '';
+        if (marcados.some(id => Loja.precisaTamanho(P(id))) && !aro) {
+            Loja.aviso('Escolha o tamanho do anel para levar o conjunto.', { icone: 'joia' });
+            $('aroConjunto').focus();
+            return;
+        }
+        marcados.forEach(id => Loja.adicionar(id, 1, Loja.precisaTamanho(P(id)) ? { tamanho: +aro } : {}));
         Loja.abrirSacola(marcados[0]);
     });
     totalConjunto();

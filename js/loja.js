@@ -57,6 +57,7 @@
         editar: '<path d="M4 20h4L19 9l-4-4L4 16v4Z"/>',
         estrela: '<path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7L12 3Z"/>',
         relogio: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+        email: '<rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 6 9 7 9-7"/>',
         copiar: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/>',
         painel: '<rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>',
         instagram: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/>',
@@ -92,30 +93,92 @@
     const img = (caminho) => /^(data:|https?:)/.test(caminho) ? caminho : RAIZ + caminho;
 
     // ---------- Sacola ----------
-    const sacola = () => ler(CHAVES.sacola, []).filter(i => produto(i.id));
-    function salvarSacola(itens) { gravar(CHAVES.sacola, itens); avisar(CHAVES.sacola); }
-    function adicionar(id, qtd = 1) {
+    // Cada item: { id, qtd, tamanho?, gravacao?: { texto, fonte } }.
+    // A mesma joia com tamanho ou gravação diferente vira outra linha.
+    const PRECO_GRAVACAO = 49;
+    const ARO = { min: 12, max: 24 };
+    const precisaTamanho = (p) => p && p.categoria === 'aneis';
+    const aceitaGravacao = (p) => p && (p.categoria === 'aneis' || p.categoria === 'braceletes');
+    const chave = (i) => [i.id, i.tamanho || '', i.gravacao ? i.gravacao.texto + '/' + i.gravacao.fonte : ''].join('|');
+    const sacola = () => ler(CHAVES.sacola, []).filter(i => produto(i.id)).map(i => ({ ...i, chave: chave(i) }));
+    function salvarSacola(itens) { gravar(CHAVES.sacola, itens.map(({ chave: _c, ...i }) => i)); avisar(CHAVES.sacola); }
+    const precoItem = (i) => (produto(i.id)?.preco || 0) + (i.gravacao ? PRECO_GRAVACAO : 0);
+    const naSacola = (id, itens = sacola()) => itens.filter(i => i.id === id).reduce((s, i) => s + i.qtd, 0);
+    function adicionar(id, qtd = 1, opcoes = {}) {
         const p = produto(id);
         if (!p || p.estoque <= 0) return { ok: false, motivo: 'esgotado' };
+        if (precisaTamanho(p) && !opcoes.tamanho) return { ok: false, motivo: 'tamanho' };
         const itens = sacola();
-        const item = itens.find(i => i.id === id);
-        const atual = item ? item.qtd : 0;
-        const nova = Math.min(p.estoque, atual + qtd);
-        if (nova === atual) return { ok: false, motivo: 'limite', max: p.estoque };
-        if (item) item.qtd = nova; else itens.push({ id, qtd: nova });
+        const novo = { id, qtd: 0, ...(opcoes.tamanho ? { tamanho: +opcoes.tamanho } : {}), ...(opcoes.gravacao && opcoes.gravacao.texto ? { gravacao: opcoes.gravacao } : {}) };
+        const k = chave(novo);
+        let item = itens.find(i => i.chave === k);
+        const livre = p.estoque - naSacola(id, itens);
+        const somar = Math.min(qtd, livre);
+        if (somar <= 0) return { ok: false, motivo: 'limite', max: p.estoque };
+        if (!item) { item = { ...novo, chave: k }; itens.push(item); }
+        item.qtd += somar;
         salvarSacola(itens);
-        return { ok: true, qtd: nova, limitado: nova < atual + qtd };
+        return { ok: true, qtd: item.qtd, chave: k, limitado: somar < qtd };
     }
-    function mudarQtd(id, qtd) {
-        const p = produto(id);
+    function mudarQtd(k, qtd) {
         let itens = sacola();
-        if (qtd <= 0) itens = itens.filter(i => i.id !== id);
-        else itens.forEach(i => { if (i.id === id) i.qtd = Math.min(qtd, p ? p.estoque : qtd); });
+        const item = itens.find(i => i.chave === k);
+        if (!item) return;
+        if (qtd <= 0) itens = itens.filter(i => i.chave !== k);
+        else {
+            const p = produto(item.id);
+            const outros = naSacola(item.id, itens) - item.qtd;
+            item.qtd = Math.max(1, Math.min(qtd, p.estoque - outros));
+        }
         salvarSacola(itens);
     }
-    const remover = (id) => mudarQtd(id, 0);
+    const remover = (k) => mudarQtd(k, 0);
+    function restaurarItem(item) { // usado pelo "Desfazer"
+        const itens = sacola();
+        if (!itens.some(i => i.chave === item.chave)) { itens.push(item); salvarSacola(itens); }
+    }
     const qtdSacola = () => sacola().reduce((s, i) => s + i.qtd, 0);
-    const subtotal = (itens = sacola()) => itens.reduce((s, i) => s + (produto(i.id)?.preco || 0) * i.qtd, 0);
+    const subtotal = (itens = sacola()) => itens.reduce((s, i) => s + precoItem(i) * i.qtd, 0);
+    // "Aro 16 · gravação “B & L” (cursiva)"
+    const FONTES = { classica: 'clássica', cursiva: 'cursiva' };
+    function opcoesTexto(i) {
+        const partes = [];
+        if (i.tamanho) partes.push(`Aro ${i.tamanho}`);
+        if (i.gravacao) partes.push(`Gravação “${i.gravacao.texto}” (${FONTES[i.gravacao.fonte] || i.gravacao.fonte})`);
+        return partes.join(' · ');
+    }
+
+    // ---------- Guia de tamanhos ----------
+    // Tabela de aros brasileiros: diâmetro interno aproximado em milímetros
+    const TABELA_AROS = [[12, 16.5], [13, 16.8], [14, 17.2], [15, 17.5], [16, 17.8], [17, 18.2], [18, 18.5], [19, 18.8], [20, 19.1], [21, 19.4], [22, 19.8], [23, 20.1], [24, 20.4]];
+    const aroPeloDiametro = (mm) => TABELA_AROS.reduce((melhor, [aro, d]) => Math.abs(d - mm) < Math.abs(melhor[1] - mm) ? [aro, d] : melhor, TABELA_AROS[0])[0];
+    function guiaTamanhosHtml() {
+        return `
+        <ol class="passos-guia">
+            <li><strong>Escolha um anel</strong> que sirva bem no dedo em que você vai usar a joia.</li>
+            <li><strong>Meça o diâmetro interno</strong> com uma régua, de uma borda interna à outra, em milímetros.</li>
+            <li><strong>Digite a medida abaixo</strong> ou procure na tabela o aro mais próximo.</li>
+        </ol>
+        <div class="calculadora-aro">
+            <label for="mmAro">Diâmetro interno (mm)</label>
+            <div class="linha-form"><input class="entrada" id="mmAro" type="number" min="14" max="23" step="0.1" placeholder="Ex.: 17,8" inputmode="decimal"><output id="resultadoAro" aria-live="polite">Seu aro aparece aqui</output></div>
+        </div>
+        <div class="tabela-envolve-aros"><table class="tabela-aros"><thead><tr><th>Aro</th>${TABELA_AROS.map(([a]) => `<td>${a}</td>`).join('')}</tr></thead>
+            <tbody><tr><th>mm</th>${TABELA_AROS.map(([, d]) => `<td>${d.toString().replace('.', ',')}</td>`).join('')}</tr></tbody></table></div>
+        <p class="ajuda">Entre dois tamanhos, prefira o maior. Se o anel não servir, a troca é grátis em até 30 dias.</p>`;
+    }
+    function iniciarGuia(raiz, aoEscolher) {
+        const campo = raiz.querySelector('#mmAro');
+        const saida = raiz.querySelector('#resultadoAro');
+        campo.addEventListener('input', () => {
+            const mm = parseFloat(String(campo.value).replace(',', '.'));
+            if (!(mm >= 14 && mm <= 23)) { saida.textContent = 'Digite uma medida entre 14 e 23 mm'; saida.dataset.aro = ''; return; }
+            const aro = aroPeloDiametro(mm);
+            saida.innerHTML = `Seu aro é <strong>${aro}</strong>${aoEscolher ? ` <button type="button" class="link" data-usar-aro="${aro}">usar este</button>` : ''}`;
+            raiz.querySelectorAll('.tabela-aros td').forEach((td, i) => td.classList.toggle('destaque', TABELA_AROS[i % TABELA_AROS.length][0] === aro));
+        });
+        if (aoEscolher) raiz.addEventListener('click', (e) => { const b = e.target.closest('[data-usar-aro]'); if (b) aoEscolher(+b.dataset.usarAro); });
+    }
 
     // ---------- Cupons e frete (simulados) ----------
     const CUPONS = {
@@ -243,8 +306,8 @@
         const pedido = { numero: 'EC' + (ultimo + 1), criado: Date.now(), historico: [{ status: dados.status, quando: Date.now() }], ...dados };
         // baixa o estoque
         salvarProdutos(produtos().map(p => {
-            const item = dados.itens.find(i => i.id === p.id);
-            return item ? { ...p, estoque: Math.max(0, p.estoque - item.qtd) } : p;
+            const qtd = dados.itens.filter(i => i.id === p.id).reduce((t, i) => t + i.qtd, 0);
+            return qtd ? { ...p, estoque: Math.max(0, p.estoque - qtd) } : p;
         }));
         salvarPedidos([pedido, ...lista]);
         return pedido;
@@ -293,7 +356,7 @@
                 </a>
                 ${etiqueta}
                 <button type="button" class="peca-fav" data-favorito="${p.id}" aria-pressed="${fav}" aria-label="${fav ? 'Tirar dos favoritos' : 'Salvar nos favoritos'}: ${escapar(p.nome)}">${icone('coracao')}</button>
-                <button type="button" class="peca-add miuda" data-comprar="${p.id}" ${esgotado ? 'disabled' : ''}>${esgotado ? 'Esgotado' : `${icone('sacola')} Adicionar à sacola`}</button>
+                <button type="button" class="peca-add miuda" data-comprar="${p.id}" ${esgotado ? 'disabled' : ''}>${esgotado ? 'Esgotado' : `${icone('sacola')} ${p.categoria === 'aneis' ? 'Escolher tamanho' : 'Adicionar à sacola'}`}</button>
             </div>
             <div class="peca-info">
                 <span class="miuda">${escapar(colecao(p))}</span>
@@ -322,6 +385,10 @@
         const comprar = e.target.closest('[data-comprar]');
         if (comprar) {
             e.preventDefault();
+            if (precisaTamanho(produto(comprar.dataset.comprar))) {
+                location.href = `${RAIZ}produto.html?id=${encodeURIComponent(comprar.dataset.comprar)}#tamanho`;
+                return;
+            }
             const r = adicionar(comprar.dataset.comprar, 1);
             if (r.ok) abrirSacola(comprar.dataset.comprar);
             else if (r.motivo === 'limite') aviso(`Só temos ${r.max} ${r.max === 1 ? 'unidade' : 'unidades'} desta peça.`, { icone: 'pacote' });
@@ -359,7 +426,7 @@
                 <div class="cab-esq">
                     <button type="button" class="icone-topo botao-menu" id="abrirMenu" aria-label="Abrir menu" aria-expanded="false" aria-controls="gavetaMenu">${icone('menu')}</button>
                     <button type="button" class="icone-topo" id="abrirBusca" aria-label="Buscar" aria-expanded="false" aria-controls="painelBusca">${icone('busca')}</button>
-                    <a class="atendimento miuda" href="${RAIZ}sobre.html">${icone('usuario')} Atendimento</a>
+                    <a class="atendimento miuda" href="${RAIZ}servicos.html#atendimento">${icone('usuario')} Atendimento</a>
                 </div>
                 <a class="marca" href="${RAIZ}index.html"><img src="${RAIZ}imagens/logo.webp" alt="Éclat Joias" width="424" height="271"></a>
                 <div class="cab-dir">
@@ -475,10 +542,10 @@
         }
         corpo.innerHTML = itens.map(i => {
             const p = produto(i.id);
-            return `<div class="mini-item" ${i.id === destaque ? 'style="background:linear-gradient(90deg,rgba(207,162,102,.14),transparent)"' : ''}>
+            return `<div class="mini-item" ${i.chave === destaque || i.id === destaque ? 'style="background:linear-gradient(90deg,rgba(207,162,102,.14),transparent)"' : ''}>
                 <img src="${img(p.img)}" alt="">
-                <div><strong>${escapar(p.nome)}</strong><small>${escapar(colecao(p))} · ${i.qtd} ${i.qtd > 1 ? 'unidades' : 'unidade'}</small></div>
-                <span>${real(p.preco * i.qtd)}</span>
+                <div><strong>${escapar(p.nome)}</strong><small>${escapar(opcoesTexto(i) || colecao(p))} · ${i.qtd} ${i.qtd > 1 ? 'unidades' : 'unidade'}</small></div>
+                <span>${real(precoItem(i) * i.qtd)}</span>
             </div>`;
         }).join('');
         const sub = subtotal(itens);
@@ -526,6 +593,9 @@
                     <div><h3>Joias</h3><ul>${ORDEM.map(c => `<li><a href="${urlColecao(c)}">${CAT[c].nome}</a></li>`).join('')}</ul></div>
                     <div><h3>A Éclat</h3><ul>
                         <li><a href="${RAIZ}sobre.html">Nossa história</a></li>
+                        <li><a href="${RAIZ}servicos.html#gravacao">Gravação personalizada</a></li>
+                        <li><a href="${RAIZ}servicos.html#tamanhos">Guia de tamanhos</a></li>
+                        <li><a href="${RAIZ}servicos.html#presente">Embalagem de presente</a></li>
                         <li><a href="${RAIZ}favoritos.html">Favoritos</a></li>
                         <li><a href="${RAIZ}conta.html">Minha conta</a></li>
                         <li><a href="${RAIZ}entrar.html?admin=1">Acesso administrador</a></li>
@@ -557,7 +627,8 @@
         RAIZ, CAT, ORDEM, CUPONS, STATUS, ETAPAS, FRETE_GRATIS_ACIMA, DESCONTO_PIX, ADMIN, CLIENTE_DEMO,
         icone, real, parcelas, escapar, dataHora, dataCurta, img, urlColecao, seloStatus, mascaraCep,
         produtos, produto, salvarProdutos, colecao,
-        sacola, adicionar, mudarQtd, remover, qtdSacola, subtotal, salvarSacola, frete,
+        sacola, adicionar, mudarQtd, remover, restaurarItem, qtdSacola, subtotal, salvarSacola, frete, naSacola,
+        PRECO_GRAVACAO, ARO, precisaTamanho, aceitaGravacao, precoItem, opcoesTexto, guiaTamanhosHtml, iniciarGuia,
         favoritos, ehFavorito, alternarFavorito,
         usuarios, usuarioAtual, sessao, ehAdmin, entrar, cadastrar, atualizarUsuario, sair,
         pedidos, salvarPedidos, criarPedido, mudarStatus, restaurarDemo,

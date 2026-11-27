@@ -33,9 +33,10 @@
                 <dt>Cliente</dt><dd>${escapar(p.cliente)} · ${escapar(p.email)}</dd>
                 <dt>Data</dt><dd>${Loja.dataHora(p.criado)}</dd>
                 <dt>Entrega</dt><dd>${escapar(p.entrega || '')}${p.prazo ? ` · até ${p.prazo} dias úteis` : ''}<br>${escapar([e.rua, e.numero].filter(Boolean).join(', '))}${e.complemento ? ' · ' + escapar(e.complemento) : ''}<br>${escapar([e.bairro, e.cidade && `${e.cidade}/${e.uf}`, e.cep].filter(Boolean).join(' · '))}</dd>
+                ${p.presente ? `<dt>Presente</dt><dd>Embalagem de presente${p.presente.para ? ` para ${escapar(p.presente.para)}` : ''}${p.presente.semPreco ? ' · sem preços no pacote' : ''}${p.presente.mensagem ? `<br><em>“${escapar(p.presente.mensagem)}”</em>` : ''}</dd>` : ''}
                 <dt>Pagamento</dt><dd>${escapar(p.pagamento)}${p.cupom ? ` · cupom ${escapar(p.cupom)}` : ''}</dd>
             </dl>
-            <table><tbody>${p.itens.map(i => `<tr><td><div class="produto-celula"><img src="${Loja.img(i.img)}" alt=""><div><strong>${escapar(i.nome)}</strong><small>${i.qtd} × ${real(i.preco)}</small></div></div></td><td style="text-align:right">${real(i.preco * i.qtd)}</td></tr>`).join('')}</tbody></table>
+            <table><tbody>${p.itens.map(i => `<tr><td><div class="produto-celula"><img src="${Loja.img(i.img)}" alt=""><div><strong>${escapar(i.nome)}</strong><small>${Loja.opcoesTexto(i) ? escapar(Loja.opcoesTexto(i)) + ' · ' : ''}${i.qtd} × ${real(i.preco)}</small></div></div></td><td style="text-align:right">${real(i.preco * i.qtd)}</td></tr>`).join('')}</tbody></table>
             <div class="linhas-resumo">
                 <div><span>Subtotal</span><span>${real(p.subtotal)}</span></div>
                 ${p.desconto ? `<div class="desconto"><span>Descontos</span><span>− ${real(p.desconto)}</span></div>` : ''}
