@@ -48,6 +48,17 @@
                 </section>
 
                 <section class="cartao bloco-checkout">
+                    <h2>${icone('presente')} Presente</h2>
+                    <label class="opcao"><input type="checkbox" id="ehPresente"><div><strong>É para presente</strong><small>Caixa Éclat com laço e cartão escrito à mão, sem custo</small></div></label>
+                    <div id="dadosPresente" class="form-pilha" style="margin-top:18px" hidden>
+                        <div class="campo"><label for="presentePara">Para <span class="ajuda">(opcional)</span></label><input id="presentePara" maxlength="40" placeholder="Nome de quem vai receber"></div>
+                        <div class="campo"><label for="presenteMensagem">Mensagem do cartão</label><textarea id="presenteMensagem" maxlength="200" placeholder="Escreva sua mensagem (até 200 caracteres)"></textarea><span class="ajuda"><span id="contaMensagem">0</span>/200</span></div>
+                        <label class="marcar"><input type="checkbox" id="presenteSemPreco" checked> Não mostrar os preços dentro do pacote</label>
+                        <div class="cartao-previa" aria-hidden="true"><span class="miuda dourada">Éclat Joias</span><p id="previaPara">Para você</p><blockquote id="previaMensagem">Sua mensagem aparece aqui.</blockquote></div>
+                    </div>
+                </section>
+
+                <section class="cartao bloco-checkout">
                     <h2>${icone('cartao')} Pagamento</h2>
                     <div class="opcoes" role="radiogroup" aria-label="Forma de pagamento">
                         <label class="opcao"><input type="radio" name="pagamento" value="pix" checked>${icone('pix')}<div><strong>Pix</strong><small>5% de desconto · aprovação na hora</small></div></label>
@@ -79,11 +90,20 @@
         $('numCartao').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 16).replace(/(\d{4})(?=\d)/g, '$1 '); });
         $('validade').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4).replace(/(\d{2})(\d)/, '$1/$2'); });
         $('cvv').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g, ''); });
+        $('ehPresente').addEventListener('change', () => { $('dadosPresente').hidden = !presente(); desenharResumo(); if (presente()) $('presentePara').focus(); });
+        const atualizarCartao = () => {
+            $('previaPara').textContent = $('presentePara').value.trim() ? `Para ${$('presentePara').value.trim()}` : 'Para você';
+            $('previaMensagem').textContent = $('presenteMensagem').value.trim() || 'Sua mensagem aparece aqui.';
+            $('contaMensagem').textContent = $('presenteMensagem').value.length;
+        };
+        $('presentePara').addEventListener('input', atualizarCartao);
+        $('presenteMensagem').addEventListener('input', atualizarCartao);
         $('formCheckout').addEventListener('submit', finalizar);
         desenharEntrega();
         desenharResumo();
     }
 
+    const presente = () => !!document.getElementById('ehPresente')?.checked;
     const pagamento = () => document.querySelector('input[name="pagamento"]:checked')?.value || 'pix';
     const entrega = () => document.querySelector('input[name="entrega"]:checked')?.value || 'normal';
 
@@ -142,7 +162,8 @@
         }
         $('resumo').innerHTML = `
             <h2>Seu pedido</h2>
-            ${t.itens.map(i => { const p = Loja.produto(i.id); return `<div class="mini-item"><img src="${Loja.img(p.img)}" alt=""><div><strong>${escapar(p.nome)}</strong><small>${i.qtd} × ${real(p.preco)}</small></div><span>${real(p.preco * i.qtd)}</span></div>`; }).join('')}
+            ${t.itens.map(i => { const p = Loja.produto(i.id); return `<div class="mini-item"><img src="${Loja.img(p.img)}" alt=""><div><strong>${escapar(p.nome)}</strong><small>${Loja.opcoesTexto(i) ? escapar(Loja.opcoesTexto(i)) + '<br>' : ''}${i.qtd} × ${real(Loja.precoItem(i))}</small></div><span>${real(Loja.precoItem(i) * i.qtd)}</span></div>`; }).join('')}
+            ${presente() ? `<p class="ajuda" style="display:flex;gap:8px;align-items:center;margin-top:10px">${icone('presente')} Embalagem de presente com cartão (grátis)</p>` : ''}
             <div class="linhas-resumo">
                 <div><span>Subtotal</span><span>${real(t.sub)}</span></div>
                 ${t.desconto ? `<div class="desconto"><span>Cupom ${t.codigo}</span><span>− ${real(t.desconto)}</span></div>` : ''}
@@ -191,7 +212,7 @@
         if (!validar()) return;
         const t = calculo();
         // confere o estoque de novo (outra aba pode ter comprado)
-        const falta = t.itens.find(i => (Loja.produto(i.id)?.estoque || 0) < i.qtd);
+        const falta = t.itens.find(i => (Loja.produto(i.id)?.estoque || 0) < Loja.naSacola(i.id, t.itens));
         if (falta) { Loja.aviso(`${Loja.produto(falta.id).nome}: não há unidades suficientes. Ajuste a sacola.`, { icone: 'pacote', duracao: 6000 }); return; }
         const u = Loja.usuarioAtual();
         const endereco = { cep: $('cep').value, rua: $('rua').value.trim(), numero: $('numero').value.trim(), complemento: $('complemento').value.trim(), bairro: $('bairro').value.trim(), cidade: $('cidade').value.trim(), uf: $('uf').value.trim().toUpperCase() };
@@ -199,7 +220,8 @@
         const forma = pagamento();
         const pedido = Loja.criarPedido({
             cliente: u.nome, email: u.email,
-            itens: t.itens.map(i => { const p = Loja.produto(i.id); return { id: p.id, nome: p.nome, preco: p.preco, img: p.img, qtd: i.qtd }; }),
+            itens: t.itens.map(i => { const p = Loja.produto(i.id); return { id: p.id, nome: p.nome, preco: Loja.precoItem(i), img: p.img, qtd: i.qtd, ...(i.tamanho ? { tamanho: i.tamanho } : {}), ...(i.gravacao ? { gravacao: i.gravacao } : {}) }; }),
+            presente: presente() ? { para: $('presentePara').value.trim(), mensagem: $('presenteMensagem').value.trim(), semPreco: $('presenteSemPreco').checked } : null,
             subtotal: t.sub, desconto: t.desconto + t.descontoPix, cupom: t.codigo, frete: t.frete, total: t.total,
             pagamento: forma === 'pix' ? 'Pix' : forma === 'boleto' ? 'Boleto' : `Cartão em ${$('parcelas').value}x`,
             entrega: t.opcao.nome, prazo: t.opcao.dias, endereco,
@@ -224,6 +246,8 @@
                     <p class="ajuda">Copie o código abaixo. Como é uma loja fictícia, você pode marcar o pagamento como feito no painel administrativo.</p>
                     <div class="codigo-pix"><input class="entrada" id="codigoPix" value="${codigoPix}" readonly aria-label="Código Pix"><button type="button" class="botao botao-contorno botao-pequeno" id="copiarPix">${icone('copiar')} Copiar</button></div>
                 </div>` : forma === 'boleto' ? '<p class="ajuda" style="margin-top:14px">O boleto (fictício) vence em 3 dias úteis.</p>' : '<p class="ajuda" style="margin-top:14px">Pagamento aprovado. Agora é só aguardar o envio.</p>'}
+            ${p.presente ? `<p style="margin-top:18px">${icone('presente')} Vai em embalagem de presente${p.presente.para ? ` para <strong>${escapar(p.presente.para)}</strong>` : ''}${p.presente.mensagem ? `, com a mensagem: <em>“${escapar(p.presente.mensagem)}”</em>` : ''}.</p>` : ''}
+            ${p.itens.some(i => i.gravacao) ? '<p class="ajuda">Peças com gravação levam até 3 dias úteis a mais para ficar prontas.</p>' : ''}
             <p style="margin-top:18px">Entrega em até <strong>${p.prazo} dias úteis</strong> em ${escapar(p.endereco.cidade)}/${escapar(p.endereco.uf)}.</p>
             <div class="hero-acoes" style="justify-content:center;margin-top:26px">
                 <a class="botao botao-escuro" href="conta.html#pedidos">Acompanhar pedido</a>

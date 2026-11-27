@@ -20,18 +20,20 @@
         let trilha = `<a href="index.html">Início</a><span>/</span>`;
         if (busca) {
             $('sobre').textContent = 'Busca';
-            $('titulo').textContent = `Resultados para “${busca}”`;
+            $('titulo').innerHTML = `Resultados para <em>“${escapar(busca)}”</em>`;
             $('descricao').textContent = '';
             trilha += `<span aria-current="page">Busca</span>`;
             document.title = `Busca: ${busca} · Éclat Joias`;
         } else if (c) {
             const col = linha === 'todas' ? null : c[linha];
             $('sobre').textContent = col ? (linha === 'prata' ? 'Prata 925' : 'Banhado a ouro 18k') : 'Éclat Collections';
-            $('titulo').textContent = col ? `Coleção ${col.nome}` : c.nome;
+            $('titulo').innerHTML = col ? `Coleção <em>${col.nome}</em>` : c.nome;
             $('descricao').textContent = col ? col.descricao : `${c.nome} em duas coleções: ${c.prata.nome}, em prata, e ${c.dourado.nome}, em dourado.`;
-            $('banner').hidden = false;
-            $('bannerImg').src = col ? col.img : c.banner;
-            $('bannerImg').alt = col ? `Coleção ${col.nome}` : c.nome;
+            // faixa: foto de modelo + duas peças da coleção
+            const pecas = Loja.produtos().filter(p => p.categoria === categoria && (!col || p.linha === linha) && p.estoque > 0);
+            $('faixa').hidden = false;
+            $('faixa').innerHTML = `<img src="imagens/editorial/${Loja.FOTO_LOOK[categoria]}.webp" alt="">` +
+                pecas.slice(0, 2).map(p => `<img src="${Loja.img(p.img)}" alt="" style="object-fit:contain;padding:8%;background:var(--areia)">`).join('');
             trilha += col ? `<a href="${Loja.urlColecao(categoria)}">${c.nome}</a><span>/</span><span aria-current="page">${col.nome}</span>` : `<span aria-current="page">${c.nome}</span>`;
             document.title = `${col ? 'Coleção ' + col.nome : c.nome} · Éclat Joias`;
         } else {
@@ -44,10 +46,10 @@
 
         // abas: Todas / coleção prata / coleção dourado (ou categorias, na busca e em "todas")
         if (c) {
-            $('abas').innerHTML = [['todas', 'Todas'], ['prata', `${c.prata.nome} · Prata`], ['dourado', `${c.dourado.nome} · Dourado`]]
+            $('abas').innerHTML = [['todas', 'Todas'], ['dourado', `${c.dourado.nome} · Ouro`], ['prata', `${c.prata.nome} · Prata`]]
                 .map(([v, t]) => `<button type="button" data-linha="${v}" aria-pressed="${v === linha}">${t}</button>`).join('');
         } else {
-            $('abas').innerHTML = [['todas', 'Todas'], ['prata', 'Prata'], ['dourado', 'Dourado']]
+            $('abas').innerHTML = [['todas', 'Todas'], ['dourado', 'Ouro 18k'], ['prata', 'Prata 925']]
                 .map(([v, t]) => `<button type="button" data-linha="${v}" aria-pressed="${v === linha}">${t}</button>`).join('');
         }
     }
